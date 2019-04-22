@@ -21,7 +21,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'gt_email',
-        'full_name',
+        'name',
         'deleted_at',
         'created_at',
         'updated_at',
@@ -32,7 +32,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [ ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be cast to native types.
