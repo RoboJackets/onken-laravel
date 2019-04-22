@@ -4,8 +4,63 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "94d4bf9ac7f4a933030e46a346ee2917",
+    "content-hash": "bf69ad750af912d59fcca5ddd9f25043",
     "packages": [
+        {
+            "name": "apereo/phpcas",
+            "version": "1.3.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/apereo/phpCAS.git",
+                "reference": "7972833e84f6ee5fa41f1479eab5d855109627f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/apereo/phpCAS/zipball/7972833e84f6ee5fa41f1479eab5d855109627f5",
+                "reference": "7972833e84f6ee5fa41f1479eab5d855109627f5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7.10"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "source/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Joachim Fritschi",
+                    "homepage": "https://wiki.jasig.org/display/~fritschi"
+                },
+                {
+                    "name": "Adam Franco",
+                    "homepage": "https://wiki.jasig.org/display/~adamfranco"
+                }
+            ],
+            "description": "Provides a simple API for authenticating users against a CAS server",
+            "homepage": "https://wiki.jasig.org/display/CASC/phpCAS",
+            "keywords": [
+                "apereo",
+                "cas",
+                "jasig"
+            ],
+            "time": "2018-10-25T20:22:09+00:00"
+        },
         {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "0.1",
@@ -458,6 +513,61 @@
             ],
             "description": "Highlight PHP code in terminal",
             "time": "2018-09-29T18:48:56+00:00"
+        },
+        {
+            "name": "jasig/phpcas",
+            "version": "1.3.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/apereo/phpCAS.git",
+                "reference": "7972833e84f6ee5fa41f1479eab5d855109627f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/apereo/phpCAS/zipball/7972833e84f6ee5fa41f1479eab5d855109627f5",
+                "reference": "7972833e84f6ee5fa41f1479eab5d855109627f5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7.10"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "source/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Joachim Fritschi",
+                    "homepage": "https://wiki.jasig.org/display/~fritschi"
+                },
+                {
+                    "name": "Adam Franco",
+                    "homepage": "https://wiki.jasig.org/display/~adamfranco"
+                }
+            ],
+            "description": "Provides a simple API for authenticating users against a CAS server",
+            "homepage": "https://wiki.jasig.org/display/CASC/phpCAS",
+            "keywords": [
+                "apereo",
+                "cas",
+                "jasig"
+            ],
+            "time": "2018-10-25T20:22:09+00:00"
         },
         {
             "name": "laravel/framework",
@@ -1397,6 +1507,57 @@
                 "uuid"
             ],
             "time": "2018-07-19T23:38:55+00:00"
+        },
+        {
+            "name": "subfission/cas",
+            "version": "v2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/subfission/cas.git",
+                "reference": "fff20c4a851463b46f206f685bd9797d79904a37"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/subfission/cas/zipball/fff20c4a851463b46f206f685bd9797d79904a37",
+                "reference": "fff20c4a851463b46f206f685bd9797d79904a37",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.x",
+                "jasig/phpcas": "~1.3.4",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Subfission\\Cas\\": "src/Subfission/Cas/"
+                },
+                "files": [
+                    "src/Subfission/Cas/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "subfission",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Adds CAS to laravel 5.x",
+            "keywords": [
+                "SSO",
+                "cas",
+                "laravel",
+                "laravel 5",
+                "phpCAS"
+            ],
+            "time": "2017-10-28T07:21:39+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
