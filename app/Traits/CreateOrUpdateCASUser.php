@@ -77,4 +77,4 @@ trait CreateOrUpdateCASUser
 
         return $user;
     }
-
+}

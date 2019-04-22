@@ -11,6 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => 'auth.cas.force'], function () {
+    Route::get('/', function () {
+        return view('welcome');
+    });
 });
