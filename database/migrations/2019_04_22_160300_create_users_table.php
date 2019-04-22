@@ -20,7 +20,6 @@ class CreateUsersTable extends Migration
             $table->string('last_name', 127);
             $table->string('name')->virtualAs("CONCAT(first_name,' ',last_name)");
             $table->string('gt_email')->unique();
-            $table->string('password');
             $table->softDeletes();
             $table->timestamps();
         });
