@@ -60,8 +60,8 @@ class CreateModels extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vendors');
-        Schema::dropIfExists('vendor_notes');
         Schema::dropIfExists('vendor_tags');
+        Schema::dropIfExists('vendor_notes');
+        Schema::dropIfExists('vendors');
     }
 }
