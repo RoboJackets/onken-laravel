@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Panel;
 
 class Account extends Resource
 {
@@ -41,15 +42,46 @@ class Account extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('Name'),
+            Text::make('Name')
+                ->sortable(),
 
-            BelongsTo::make('Fiscal Year', 'fiscalYear'),
+            BelongsTo::make('Fiscal Year', 'fiscalYear')
+                ->hideFromIndex(),
 
-            Text::make('SGA Bill Number'),
+            Text::make('SGA Bill Number')
+                ->hideFromIndex(),
 
-            Text::make('Workday Account Number', 'workday_number'),
+            Text::make('Workday Account Number', 'workday_number')
+                ->hideFromIndex(),
+
+            new Panel('Amounts', $this->amountFields()),
 
             HasMany::make('Lines', 'accountLines', 'App\Nova\AccountLine'),
+        ];
+    }
+
+    protected function amountFields()
+    {
+        return [
+            Text::make('Allocated', function () {
+                return 'fixme';
+            }),
+
+            Text::make('Used', function () {
+                return 'fixme';
+            }),
+
+            Text::make('Collected', function () {
+                return 'fixme';
+            }),
+
+            Text::make('Remaining', function () {
+                return 'fixme';
+            }),
+
+            Text::make('Overdraw', function () {
+                return 'fixme';
+            }),
         ];
     }
 
