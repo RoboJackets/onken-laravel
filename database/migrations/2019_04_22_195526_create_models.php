@@ -27,7 +27,7 @@ class CreateModels extends Migration
             $table->string('part_url_schema')->nullable();
             $table->boolean('shipping_quote_required');
             $table->boolean('tax_exempt');
-            $table->string('requisition_guidance');
+            $table->string('requisition_guidance')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -42,7 +42,7 @@ class CreateModels extends Migration
 
             $table->foreign('vendor_id')->references('id')->on('vendors');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('parent')->references('id')->on('vendor_notes');
+            $table->foreign('parent_id')->references('id')->on('vendor_notes');
         });
         Schema::create('vendor_tags', function (Blueprint $table) {
             $table->increments('id');

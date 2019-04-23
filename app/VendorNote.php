@@ -5,6 +5,7 @@ namespace App;
 use Laravel\Nova\Actions\Actionable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class VendorNote extends Model
 {
@@ -51,6 +52,21 @@ class VendorNote extends Model
      */
     public function vendor()
     {
-        return $this->belongsTo('App\Vendor');
+        return $this->belongsTo('App\\Vendor');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\\User');
+    }
+
+    public function children()
+    {
+        return $this->hasMany('App\\VendorNote', 'parent_id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo('App\\VendorNote', 'parent_id');
     }
 }

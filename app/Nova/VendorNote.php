@@ -5,31 +5,32 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\BelongsTo;
 
-class User extends Resource
+class VendorNote extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'App\\User';
+    public static $model = 'App\\VendorNote';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'note';
 
     /**
      * The columns that should be searched.
      *
      * @var array
      */
-    public static $search = [
-        'id', 'uid', 'first_name', 'last_name', 'name', 'gt_email',
-    ];
+    public static $search = [ ];
 
     /**
      * Get the fields displayed by the resource.
@@ -40,16 +41,17 @@ class User extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
+            BelongsTo::make('Vendor'),
 
-            Text::make('Name')
-                ->sortable(),
+            BelongsTo::make('User'),
 
-            Text::make('GT Username', 'uid')
-                ->onlyOnDetail(),
+            BelongsTo::make('Parent Note', 'parent', 'App\Nova\VendorNote')->nullable(),
 
-            Text::make('GT Email')
-                ->onlyOnDetail(),
+            Textarea::make('Note')
+                ->rules('required'),
+
+            HasMany::make('Child Notes', 'children', 'App\Nova\VendorNote'),
+
         ];
     }
 

@@ -5,15 +5,19 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Country;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Textarea;
 
-class User extends Resource
+class Vendor extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'App\\User';
+    public static $model = 'App\\Vendor';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -28,7 +32,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'uid', 'first_name', 'last_name', 'name', 'gt_email',
+        'name', 'website',
     ];
 
     /**
@@ -40,16 +44,54 @@ class User extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
-
             Text::make('Name')
                 ->sortable(),
 
-            Text::make('GT Username', 'uid')
-                ->onlyOnDetail(),
+            Country::make('Nationality')
+                ->hideFromIndex(),
 
-            Text::make('GT Email')
-                ->onlyOnDetail(),
+            Textarea::make('Billing Address')
+                ->hideFromIndex(),
+
+            Text::make('GT Vendor ID')
+                ->rules('integer')
+                ->nullable()
+                ->hideFromIndex(),
+
+            Text::make('Status')
+                ->nullable()
+                ->hideFromIndex(),
+
+            Textarea::make('Sales Contact')
+                ->nullable()
+                ->hideFromIndex(),
+
+            Text::make('Customer')
+                ->nullable()
+                ->hideFromIndex(),
+
+            Boolean::make('Web Account Exists'),
+            
+            Text::make('Website')
+                ->nullable(),
+
+            Text::make('Part URL Schema')
+                ->nullable()
+                ->hideFromIndex(),
+
+            Boolean::make('Shipping Quote Required')
+                ->hideFromIndex(),
+
+            Boolean::make('Tax Exempt')
+                ->hideFromIndex(),
+
+            Textarea::make('Requisition Guidance')
+                ->nullable()
+                ->hideFromIndex(),
+
+            HasMany::make('Tags', 'tags', 'App\Nova\VendorTag'),
+
+            HasMany::make('Notes', 'notes', 'App\Nova\VendorNote'),
         ];
     }
 

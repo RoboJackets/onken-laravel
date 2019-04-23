@@ -5,31 +5,30 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\BelongsTo;
 
-class User extends Resource
+class VendorTag extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'App\\User';
+    public static $model = 'App\\VendorTag';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'tag';
 
     /**
      * The columns that should be searched.
      *
      * @var array
      */
-    public static $search = [
-        'id', 'uid', 'first_name', 'last_name', 'name', 'gt_email',
-    ];
+    public static $search = [ 'tag' ];
 
     /**
      * Get the fields displayed by the resource.
@@ -40,16 +39,9 @@ class User extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
+            BelongsTo::make('Vendor'),
 
-            Text::make('Name')
-                ->sortable(),
-
-            Text::make('GT Username', 'uid')
-                ->onlyOnDetail(),
-
-            Text::make('GT Email')
-                ->onlyOnDetail(),
+            Text::make('Name', 'tag')
         ];
     }
 
