@@ -2,11 +2,13 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
 
@@ -46,12 +48,31 @@ class AccountLine extends Resource
 
             BelongsTo::make('Account'),
 
-            Number::make('Amount')
-                ->min(0.01)
-                ->max(9999.99)
-                ->step(0.01),
+            BelongsTo::make('Approver', 'approver', 'App\Nova\User')
+                ->nullable(),
 
-            BelongsTo::make('Approver', 'approver', 'App\Nova\User'),
+            new Panel('Amounts', $this->amountFields()),
+
+            HasMany::make('Requisition Lines', 'requisitionLines', 'App\Nova\RequisitionLine'),
+        ];
+    }
+
+    protected function amountFields()
+    {
+        return [
+            Currency::make('Allocated', 'amount'),
+
+            Currency::make('Used')
+                ->exceptOnForms(),
+
+            Currency::make('Collected')
+                ->exceptOnForms(),
+
+            Currency::make('Remaining')
+                ->exceptOnForms(),
+
+            Currency::make('Overdraw')
+                ->exceptOnForms(),
         ];
     }
 

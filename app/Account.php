@@ -61,4 +61,44 @@ class Account extends Model
     {
         return $this->hasMany('App\AccountLine');
     }
+
+    /**
+     * Get total allocated amount for the account.
+     */
+    public function getAllocatedAttribute()
+    {
+        return $this->accountLines()->get()->sum('amount');
+    }
+
+    /**
+     * Get total used amount for the account.
+     */
+    public function getUsedAttribute()
+    {
+        return $this->accountLines()->get()->sum('used');
+    }
+
+    /**
+     * Get total collected amount for the account.
+     */
+    public function getCollectedAttribute()
+    {
+        return $this->accountLines()->get()->sum('collected');
+    }
+
+    /**
+     * Get total remaining amount for the account.
+     */
+    public function getRemainingAttribute()
+    {
+        return $this->accountLines()->get()->sum('remaining');
+    }
+
+    /**
+     * Get total overdraw amount for the account.
+     */
+    public function getOverdrawAttribute()
+    {
+        return $this->accountLines()->get()->sum('overdraw');
+    }
 }

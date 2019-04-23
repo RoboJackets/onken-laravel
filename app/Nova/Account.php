@@ -2,13 +2,14 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Panel;
 
 class Account extends Resource
 {
@@ -63,25 +64,20 @@ class Account extends Resource
     protected function amountFields()
     {
         return [
-            Text::make('Allocated', function () {
-                return 'fixme';
-            }),
+            Currency::make('Allocated')
+                ->exceptOnForms(),
 
-            Text::make('Used', function () {
-                return 'fixme';
-            }),
+            Currency::make('Used')
+                ->exceptOnForms(),
 
-            Text::make('Collected', function () {
-                return 'fixme';
-            }),
+            Currency::make('Collected')
+                ->exceptOnForms(),
 
-            Text::make('Remaining', function () {
-                return 'fixme';
-            }),
+            Currency::make('Remaining')
+                ->exceptOnForms(),
 
-            Text::make('Overdraw', function () {
-                return 'fixme';
-            }),
+            Currency::make('Overdraw')
+                ->exceptOnForms(),
         ];
     }
 

@@ -53,4 +53,20 @@ class RequisitionLine extends Model
     {
         return $this->belongsTo('App\\Requisition');
     }
+
+    /**
+     * Get the account line for the line.
+     */
+    public function account_line()
+    {
+        return $this->belongsTo('App\\Requisition');
+    }
+
+    /**
+     * Get the total cost of this line.
+     */
+    public function getAmountAttribute()
+    {
+        return $this->cost * $this->quantity;
+    }
 }

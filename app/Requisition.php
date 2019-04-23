@@ -96,4 +96,14 @@ class Requisition extends Model
     {
         return $this->belongsTo('App\\User', 'exception_author_id');
     }
+
+    /**
+     * Get the total cost of this requisition.
+     */
+    public function getAmountAttribute()
+    {
+        return $this->lines()->get()->reduce(function($carry, $line) {
+            return $carry + $line->cost * $line->quantity;
+        });
+    }
 }

@@ -5,8 +5,9 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
@@ -51,15 +52,18 @@ class Requisition extends Resource
 
             Select::make('State')
                 ->options([
-                    'Draft',
-                    'Pending Approval',
-                    'Approved',
-                    'Ordered',
-                    'Partially Shipped',
-                    'Fully Shipped',
-                    'Partially Received',
-                    'Fully Received',
+                    'Draft' => 'Draft',
+                    'Pending Approval' => 'Pending Approval',
+                    'Approved' => 'Approved',
+                    'Ordered' => 'Ordered',
+                    'Partially Shipped' => 'Partially Shipped',
+                    'Fully Shipped' => 'Fully Shipped',
+                    'Partially Received' => 'Partially Received',
+                    'Fully Received' => 'Fully Received',
                 ]),
+
+            Currency::make('Total Cost', 'amount')
+                ->exceptOnForms(),
 
             BelongsTo::make('Technical Contact', 'technicalContact', 'App\Nova\User'),
 

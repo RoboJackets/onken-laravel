@@ -59,6 +59,52 @@ class AccountLine extends Model
      */
     public function approver()
     {
-        return $this->hasOne('App\User', 'id', 'approver_id');
+        return $this->belongsTo('App\User', 'approver_id', 'id');
+    }
+
+    /**
+     * Get the requisition lines using this acconut line.
+     */
+    public function requisitionLines()
+    {
+        return $this->hasMany('App\RequisitionLine', 'account_line_id', 'id');
+    }
+
+    /**
+     * Get total used amount for the line.
+     */
+    public function getUsedAttribute()
+    {
+        return $this->requisitionLines()
+            ->whereDoesntHave('requisition', function ($query) {
+                $query->whereIn('state', ['Draft', 'Pending Approval']);
+            })->get()
+            ->sum('amount');
+    }
+
+    /**
+     * Get total collected amount for the line.
+     */
+    public function getCollectedAttribute()
+    {
+        // FIXME
+        return 0;
+    }
+
+    /**
+     * Get total remaining amount for the line.
+     */
+    public function getRemainingAttribute()
+    {
+        return $this->amount - $this->used + $this->collected;
+    }
+
+    /**
+     * Get total overdraw amount for the line.
+     */
+    public function getOverdrawAttribute()
+    {
+        // If remaining is negative, return the amount but positive. Otherwise return 0.
+        return -min($this->remaining, 0);
     }
 }
