@@ -47,7 +47,7 @@ class RequisitionLine extends Model
     protected $hidden = [];
 
     /**
-     * Get the vendor for the tag.
+     * Get the requisition for the line.
      */
     public function requisition()
     {

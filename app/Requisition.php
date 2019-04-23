@@ -50,33 +50,48 @@ class Requisition extends Model
     protected $hidden = [];
 
     /**
-     * Get the vendor for the tag.
+     * Get the vendor for the requisition.
      */
     public function vendor()
     {
         return $this->belongsTo('App\\Vendor');
     }
 
+    /**
+     * Get the fiscal year for the requisition.
+     */
     public function fiscalYear()
     {
         return $this->belongsTo('App\\FiscalYear');
     }
 
+    /**
+     * Get the lines for the requisition.
+     */
     public function lines()
     {
         return $this->hasMany('App\\RequisitionLine');
     }
 
+    /**
+     * Get the technical contact for the requisition.
+     */
     public function technicalContact()
     {
         return $this->belongsTo('App\\User', 'technical_contact_id');
     }
 
+    /**
+     * Get the finance contact for the requisition.
+     */
     public function financeContact()
     {
         return $this->belongsTo('App\\User', 'finance_contact_id');
     }
 
+    /**
+     * Get the author of the exception for the requisition.
+     */
     public function exceptionAuthor()
     {
         return $this->belongsTo('App\\User', 'exception_author_id');

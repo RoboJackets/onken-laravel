@@ -48,23 +48,32 @@ class VendorNote extends Model
     protected $hidden = [];
 
     /**
-     * Get the vendor for the tag.
+     * Get the vendor for the note.
      */
     public function vendor()
     {
         return $this->belongsTo('App\\Vendor');
     }
 
+    /**
+     * Get the author of the note.
+     */
     public function user()
     {
         return $this->belongsTo('App\\User');
     }
 
+    /**
+     * Get the children notes of the note.
+     */
     public function children()
     {
         return $this->hasMany('App\\VendorNote', 'parent_id');
     }
 
+    /**
+     * Get the parent notes of the note.
+     */
     public function parent()
     {
         return $this->belongsTo('App\\VendorNote', 'parent_id');
