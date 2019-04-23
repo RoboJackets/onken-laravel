@@ -43,13 +43,13 @@ class Account extends Resource
         return [
             Text::make('Name'),
 
-            BelongsTo::make('Fiscal Year'),
+            BelongsTo::make('Fiscal Year', 'fiscalYear'),
 
             Text::make('SGA Bill Number'),
 
             Text::make('Workday Account Number', 'workday_number'),
 
-            HasMany::make('Lines', 'account_id', 'App\Nova\AccountLine'),
+            HasMany::make('Lines', 'accountLines', 'App\Nova\AccountLine'),
         ];
     }
 

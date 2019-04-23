@@ -59,6 +59,6 @@ class AccountLine extends Model
      */
     public function approver()
     {
-        return $this->hasOne('App\User', 'approver_id');
+        return $this->hasOne('App\User', 'id', 'approver_id');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
@@ -50,7 +51,7 @@ class AccountLine extends Resource
                 ->max(9999.99)
                 ->step(0.01),
 
-            BelongsTo::make('Approver'),
+            BelongsTo::make('Approver', 'approver', 'App\Nova\User'),
         ];
     }
 
