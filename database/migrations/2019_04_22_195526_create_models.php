@@ -48,6 +48,8 @@ class CreateModels extends Migration
             $table->increments('id');
             $table->unsignedInteger('vendor_id');
             $table->string('tag');
+            $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('vendor_id')->references('id')->on('vendors');
         });
