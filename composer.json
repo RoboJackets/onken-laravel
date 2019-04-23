@@ -12,6 +12,7 @@
         "apereo/phpcas": "dev-master",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.8.*",
+        "laravel/nova": "~2.0",
         "laravel/tinker": "^1.0",
         "spatie/laravel-permission": "^2.37",
         "subfission/cas": "dev-master"
@@ -61,5 +62,11 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
-    }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        }
+    ]
 }
