@@ -13,7 +13,7 @@ class CreateModels extends Migration
      */
     public function up()
     {
-        Schema::create('vendor', function (Blueprint $table) {
+        Schema::create('vendors', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('nationality');
@@ -31,7 +31,7 @@ class CreateModels extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
-        Schema::create('vendor_note', function (Blueprint $table) {
+        Schema::create('vendor_notes', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('vendor_id');
             $table->unsignedInteger('user_id');
@@ -40,16 +40,16 @@ class CreateModels extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('vendor_id')->references('id')->on('vendor');
-            $table->foreign('user_id')->references('id')->on('user');
-            $table->foreign('parent')->references('id')->on('vendor_note');
+            $table->foreign('vendor_id')->references('id')->on('vendors');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('parent')->references('id')->on('vendor_notes');
         });
-        Schema::create('vendor_tag', function (Blueprint $table) {
+        Schema::create('vendor_tags', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('vendor_id');
             $table->string('tag');
 
-            $table->foreign('vendor_id')->references('id')->on('vendor');
+            $table->foreign('vendor_id')->references('id')->on('vendors');
         });
     }
 
@@ -60,8 +60,8 @@ class CreateModels extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vendor');
-        Schema::dropIfExists('vendor_note');
-        Schema::dropIfExists('vendor_tag');
+        Schema::dropIfExists('vendors');
+        Schema::dropIfExists('vendor_notes');
+        Schema::dropIfExists('vendor_tags');
     }
 }
