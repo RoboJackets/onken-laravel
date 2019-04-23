@@ -11,8 +11,21 @@
 |
 */
 
+Route::get('nova/logout', function () {
+    return redirect('logout');
+})->name('nova.logout');
+
 Route::group(['middleware' => 'auth.cas.force'], function () {
     Route::get('/', function () {
         return view('welcome');
     });
 });
+
+Route::get('login', function () {
+    return redirect()->intended();
+})->name('login')->middleware('auth.cas.force');
+
+Route::get('logout', function () {
+    Session::flush();
+    cas()->logout(config('app.url'));
+})->name('logout');

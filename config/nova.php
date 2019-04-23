@@ -2,7 +2,6 @@
 
 use Laravel\Nova\Http\Middleware\Authorize;
 use Laravel\Nova\Http\Middleware\BootTools;
-use Laravel\Nova\Http\Middleware\Authenticate;
 use Laravel\Nova\Http\Middleware\DispatchServingNovaEvent;
 
 return [
@@ -18,7 +17,7 @@ return [
     |
     */
 
-    'name' => 'Nova Site',
+    'name' => env('APP_NAME', 'Onken'),
 
     /*
     |--------------------------------------------------------------------------
@@ -57,7 +56,7 @@ return [
     |
     */
 
-    'guard' => env('NOVA_GUARD', null),
+    'guard' => env('NOVA_GUARD', 'web'),
 
     /*
     |--------------------------------------------------------------------------
@@ -72,7 +71,7 @@ return [
 
     'middleware' => [
         'web',
-        Authenticate::class,
+        \App\Http\Middleware\CASAuthenticate::class,
         DispatchServingNovaEvent::class,
         BootTools::class,
         Authorize::class,
