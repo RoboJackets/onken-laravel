@@ -32,7 +32,9 @@ class CreateRoles extends Migration
      */
     public function down()
     {
-        Permission::all()->delete();
-        Role::all()->delete();
+        Permission::firstOrCreate(['name' => 'read-users'])->delete();
+        Permission::firstOrCreate(['name' => 'read-users-own'])->delete();
+        Role::firstOrCreate(['name' => 'admin'])->delete();
+        Role::firstOrCreate(['name' => 'member'])->delete();
     }
 }
