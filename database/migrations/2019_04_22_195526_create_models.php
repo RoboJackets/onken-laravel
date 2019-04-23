@@ -36,7 +36,7 @@ class CreateModels extends Migration
             $table->unsignedInteger('vendor_id');
             $table->unsignedInteger('user_id');
             $table->string('note');
-            $table->unsignedInteger('parent')->nullable();
+            $table->unsignedInteger('parent_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
