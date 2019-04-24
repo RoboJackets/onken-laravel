@@ -91,7 +91,10 @@ class Account extends Model
      */
     public function getRemainingAttribute()
     {
-        return $this->accountLines()->get()->sum('remaining');
+        return $this->accountLines()->get()->reduce(function ($carry, $line) {
+            // Don't add negative lines
+            return $carry + max($line->remaining, 0);
+        });
     }
 
     /**
