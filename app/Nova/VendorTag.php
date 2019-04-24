@@ -17,6 +17,26 @@ class VendorTag extends Resource
     public static $model = 'App\\VendorTag';
 
     /**
+     * Get the displayble label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return 'Vendor Tags';
+    }
+
+    /**
+     * Get the displayble singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return 'Vendor Tag';
+    }
+
+    /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string

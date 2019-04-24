@@ -22,6 +22,33 @@ class AccountLine extends Resource
     public static $model = 'App\\AccountLine';
 
     /**
+     * Get the displayble label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return 'Account Lines';
+    }
+
+    /**
+     * Get the displayble singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return 'Account Line';
+    }
+
+    /**
+     * Indicates if the resource should be displayed in the sidebar.
+     *
+     * @var bool
+     */
+    public static $displayInNavigation = false;
+
+    /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string

@@ -21,6 +21,26 @@ class FiscalYear extends Resource
     public static $model = 'App\\FiscalYear';
 
     /**
+     * Get the displayble label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return 'Fiscal Years';
+    }
+
+    /**
+     * Get the displayble singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return 'Fiscal Year';
+    }
+
+    /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
