@@ -30,6 +30,8 @@ class FixRequisitionStatus extends Migration
     {
         Schema::table('requisitions', function (Blueprint $table) {
             $table->dropColumn('state');
+        });
+        Schema::table('requisitions', function (Blueprint $table) {
             $table->enum('state', ['Draft', 'Pending Approval', 'Approved', 'Ordered', 'Partially Shipped', 'Fully Shipped', 'Partially Received', 'Fully Received']);
         });
     }

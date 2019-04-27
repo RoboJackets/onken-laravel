@@ -20,6 +20,8 @@ class CreateProjectModels extends Migration
             $table->string('requisition_prefix');
             $table->boolean('available');
             $table->unsignedInteger('approver_id')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('fiscal_year_id')->references('id')->on('fiscal_years');
             $table->foreign('approver_id')->references('id')->on('users');
