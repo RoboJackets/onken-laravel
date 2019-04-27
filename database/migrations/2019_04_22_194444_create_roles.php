@@ -32,6 +32,8 @@ class CreateRoles extends Migration
      */
     public function down()
     {
+        app()['cache']->forget('spatie.permission.cache');
+
         Permission::firstOrCreate(['name' => 'read-users'])->delete();
         Permission::firstOrCreate(['name' => 'read-users-own'])->delete();
         Role::firstOrCreate(['name' => 'admin'])->delete();
