@@ -13,7 +13,7 @@ class User extends Resource
      *
      * @var string
      */
-    public static $model = 'App\\User';
+    public static $model = 'App\User';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -40,14 +40,15 @@ class User extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
+            // ID::make()->sortable(),
 
             Text::make('Name')
                 ->exceptOnForms()
                 ->sortable(),
 
             Text::make('GT Username', 'uid')
-                ->onlyOnDetail(),
+                ->exceptOnForms()
+                ->sortable(),
 
             Text::make('GT Email')
                 ->onlyOnDetail(),

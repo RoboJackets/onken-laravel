@@ -19,7 +19,7 @@ class Requisition extends Resource
      *
      * @var string
      */
-    public static $model = 'App\\Requisition';
+    public static $model = 'App\Requisition';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -33,7 +33,7 @@ class Requisition extends Resource
      *
      * @var array
      */
-    public static $search = [ 'name' ];
+    public static $search = ['name'];
 
     /**
      * Get the fields displayed by the resource.
@@ -44,17 +44,22 @@ class Requisition extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('Name'),
+            Text::make('Name')
+                ->sortable(),
 
             BelongsTo::make('Project')
+                ->sortable()
                 ->hideFromIndex(),
 
-            BelongsTo::make('Vendor'),
+            BelongsTo::make('Vendor')
+                ->sortable(),
 
             Currency::make('Total Cost', 'amount')
+                ->sortable()
                 ->exceptOnForms(),
 
             Select::make('State')
+                ->sortable()
                 ->options([
                     'draft' => 'Draft',
                     'pending_approval' => 'Pending Approval',

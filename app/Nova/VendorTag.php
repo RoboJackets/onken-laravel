@@ -14,7 +14,7 @@ class VendorTag extends Resource
      *
      * @var string
      */
-    public static $model = 'App\\VendorTag';
+    public static $model = 'App\VendorTag';
 
     /**
      * Get the displayble label of the resource.
@@ -48,7 +48,7 @@ class VendorTag extends Resource
      *
      * @var array
      */
-    public static $search = [ 'tag' ];
+    public static $search = ['tag'];
 
     /**
      * Get the fields displayed by the resource.
@@ -59,9 +59,11 @@ class VendorTag extends Resource
     public function fields(Request $request)
     {
         return [
-            BelongsTo::make('Vendor'),
+            BelongsTo::make('Vendor')
+                ->sortable(),
 
             Text::make('Name', 'tag')
+                ->sortable(),
         ];
     }
 

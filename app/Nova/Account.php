@@ -18,7 +18,7 @@ class Account extends Resource
      *
      * @var string
      */
-    public static $model = 'App\\Account';
+    public static $model = 'App\Account';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -32,7 +32,7 @@ class Account extends Resource
      *
      * @var array
      */
-    public static $search = ['name'];
+    public static $search = ['name', 'sga_bill_number', 'workday_account_number'];
 
     /**
      * Get the fields displayed by the resource.
@@ -47,7 +47,7 @@ class Account extends Resource
                 ->sortable(),
 
             BelongsTo::make('Fiscal Year', 'fiscalYear')
-                ->hideFromIndex(),
+                ->sortable(),
 
             Text::make('SGA Bill Number')
                 ->hideFromIndex(),
@@ -65,21 +65,26 @@ class Account extends Resource
     {
         return [
             Currency::make('Allocated')
+                ->sortable()
                 ->exceptOnForms(),
 
             Currency::make('Used')
+                ->sortable()
                 ->exceptOnForms(),
 
             Currency::make('Pending')
                 ->onlyOnDetail(),
 
             Currency::make('Collected')
+                ->sortable()
                 ->exceptOnForms(),
 
             Currency::make('Remaining')
+                ->sortable()
                 ->exceptOnForms(),
 
             Currency::make('Overdraw')
+                ->sortable()
                 ->exceptOnForms(),
         ];
     }

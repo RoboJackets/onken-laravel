@@ -18,7 +18,7 @@ class Vendor extends Resource
      *
      * @var string
      */
-    public static $model = 'App\\Vendor';
+    public static $model = 'App\Vendor';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -32,9 +32,7 @@ class Vendor extends Resource
      *
      * @var array
      */
-    public static $search = [
-        'name', 'website',
-    ];
+    public static $search = ['name', 'website'];
 
     /**
      * Get the fields displayed by the resource.
@@ -53,6 +51,7 @@ class Vendor extends Resource
                 ->hideFromIndex(),
 
             Text::make('Website')
+                ->sortable()
                 ->nullable(),
 
             Country::make('Nationality')
@@ -77,7 +76,8 @@ class Vendor extends Resource
                 ->nullable()
                 ->hideFromIndex(),
 
-            Boolean::make('Web Account Exists'),
+            Boolean::make('Web Account Exists')
+                ->sortable(),
 
             Boolean::make('Shipping Quote Required')
                 ->hideFromIndex(),

@@ -20,7 +20,7 @@ class FiscalYear extends Resource
      *
      * @var string
      */
-    public static $model = 'App\\FiscalYear';
+    public static $model = 'App\FiscalYear';
 
     /**
      * Get the displayble label of the resource.
@@ -54,7 +54,7 @@ class FiscalYear extends Resource
      *
      * @var array
      */
-    public static $search = [];
+    public static $search = ['name'];
 
     /**
      * Get the fields displayed by the resource.
@@ -65,9 +65,11 @@ class FiscalYear extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('Name'),
+            Text::make('Name')
+                ->sortable(),
 
-            Boolean::make('Active'),
+            Boolean::make('Active')
+                ->sortable(),
 
             Date::make('Start Date')
                 ->format('MM/DD/YYYY')
@@ -87,21 +89,26 @@ class FiscalYear extends Resource
     {
         return [
             Currency::make('Allocated')
+                ->sortable()
                 ->exceptOnForms(),
 
             Currency::make('Used')
+                ->sortable()
                 ->exceptOnForms(),
 
             Currency::make('Pending')
                 ->onlyOnDetail(),
 
             Currency::make('Collected')
+                ->sortable()
                 ->exceptOnForms(),
 
             Currency::make('Remaining')
+                ->sortable()
                 ->exceptOnForms(),
 
             Currency::make('Overdraw')
+                ->sortable()
                 ->exceptOnForms(),
         ];
     }

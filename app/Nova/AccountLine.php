@@ -19,7 +19,7 @@ class AccountLine extends Resource
      *
      * @var string
      */
-    public static $model = 'App\\AccountLine';
+    public static $model = 'App\AccountLine';
 
     /**
      * Get the displayble label of the resource.
@@ -73,10 +73,12 @@ class AccountLine extends Resource
         return [
             BelongsTo::make('Account'),
 
-            Text::make('Line Number')
+            Text::make('#', 'line_number')
+                ->sortable()
                 ->rules('integer'),
 
-            Text::make('Name'),
+            Text::make('Name')
+                ->sortable(),
 
             BelongsTo::make('Approver', 'approver', 'App\Nova\User')
                 ->nullable()
@@ -91,15 +93,19 @@ class AccountLine extends Resource
     protected function amountFields()
     {
         return [
-            Currency::make('Allocated', 'amount'),
+            Currency::make('Allocated', 'amount')
+                ->sortable(),
 
             Currency::make('Used')
+                ->sortable()
                 ->exceptOnForms(),
 
             Currency::make('Pending')
+                ->sortable()
                 ->exceptOnForms(),
 
             Currency::make('Remaining')
+                ->sortable()
                 ->exceptOnForms(),
         ];
     }

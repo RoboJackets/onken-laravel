@@ -19,7 +19,7 @@ class RequisitionLine extends Resource
      *
      * @var string
      */
-    public static $model = 'App\\RequisitionLine';
+    public static $model = 'App\RequisitionLine';
 
     /**
      * Get the displayble label of the resource.
@@ -60,7 +60,14 @@ class RequisitionLine extends Resource
      *
      * @var array
      */
-    public static $search = [];
+    public static $search = ['description', 'sku'];
+
+    /**
+     * Indicates if the resource should be globally searchable.
+     *
+     * @var bool
+     */
+    public static $globallySearchable = false;
 
     /**
      * Get the fields displayed by the resource.
@@ -71,35 +78,45 @@ class RequisitionLine extends Resource
     public function fields(Request $request)
     {
         return [
-            BelongsTo::make('Requisition'),
+            BelongsTo::make('Requisition')
+                ->sortable(),
 
             Text::make('SKU')
-                ->nullable(),
+                ->nullable()
+                ->sortable(),
 
             Text::make('URL', 'sku_url')
-                ->nullable(),
+                ->nullable()
+                ->sortable(),
 
-            Text::make('Description'),
+            Text::make('Description')
+                ->sortable(),
 
             Currency::make('Unit Cost', 'cost')
                 ->min(0.0001)
                 ->max(9999.9999)
                 ->step(0.0001)
-                ->precision(4),
+                ->precision(4)
+                ->sortable(),
 
             Number::make('Quantity')
                 ->min(1)
-                ->step(1),
+                ->step(1)
+                ->sortable(),
 
             Currency::make('Total', 'amount')
-                ->exceptOnForms(),
+                ->exceptOnForms()
+                ->sortable(),
 
-            BelongsTo::make('Account Line'),
+            BelongsTo::make('Account Line')
+                ->sortable(),
 
             Number::make('Quantity Received')
-                ->hideWhenCreating(),
+                ->hideWhenCreating()
+                ->sortable(),
 
-            Text::make('Note'),
+            Text::make('Note')
+                ->sortable(),
         ];
     }
 

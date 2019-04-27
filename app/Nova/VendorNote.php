@@ -16,7 +16,7 @@ class VendorNote extends Resource
      *
      * @var string
      */
-    public static $model = 'App\\VendorNote';
+    public static $model = 'App\VendorNote';
 
     /**
      * Get the displayble label of the resource.
@@ -57,7 +57,14 @@ class VendorNote extends Resource
      *
      * @var array
      */
-    public static $search = [ ];
+    public static $search = ['note'];
+
+    /**
+     * Indicates if the resource should be globally searchable.
+     *
+     * @var bool
+     */
+    public static $globallySearchable = false;
 
     /**
      * Get the fields displayed by the resource.
@@ -68,17 +75,21 @@ class VendorNote extends Resource
     public function fields(Request $request)
     {
         return [
-            BelongsTo::make('Vendor'),
+            BelongsTo::make('Vendor')
+                ->sortable(),
 
-            BelongsTo::make('User'),
+            BelongsTo::make('User')
+                ->sortable(),
 
-            BelongsTo::make('Parent Note', 'parent', 'App\Nova\VendorNote')->nullable(),
+            BelongsTo::make('Parent Note', 'parent', 'App\Nova\VendorNote')
+                ->hideFromIndex()
+                ->nullable(),
 
-            Textarea::make('Note')
+            Text::make('Note')
+                ->sortable()
                 ->rules('required'),
 
             HasMany::make('Child Notes', 'children', 'App\Nova\VendorNote'),
-
         ];
     }
 

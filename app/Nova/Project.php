@@ -20,7 +20,7 @@ class Project extends Resource
      *
      * @var string
      */
-    public static $model = 'App\\Project';
+    public static $model = 'App\Project';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -34,7 +34,7 @@ class Project extends Resource
      *
      * @var array
      */
-    public static $search = [];
+    public static $search = ['name'];
 
     /**
      * Get the fields displayed by the resource.
@@ -45,15 +45,20 @@ class Project extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('Name'),
+            Text::make('Name')
+                ->sortable(),
 
-            Text::make('Requisition Prefix'),
+            Text::make('Requisition Prefix')
+                ->sortable(),
 
-            BelongsTo::make('Fiscal Year', 'fiscalYear', 'App\Nova\FiscalYear'),
+            BelongsTo::make('Fiscal Year', 'fiscalYear', 'App\Nova\FiscalYear')
+                ->sortable(),
 
-            Boolean::make('Available'),
+            Boolean::make('Available')
+                ->sortable(),
 
             BelongsTo::make('Approver', 'approver', 'App\Nova\User')
+                ->sortable()
                 ->nullable(),
 
             new Panel('Amounts', $this->amountFields()),
