@@ -58,14 +58,6 @@ class Requisition extends Model
     }
 
     /**
-     * Get the fiscal year for the requisition.
-     */
-    public function fiscalYear()
-    {
-        return $this->belongsTo('App\\FiscalYear');
-    }
-
-    /**
      * Get the lines for the requisition.
      */
     public function lines()
@@ -95,6 +87,14 @@ class Requisition extends Model
     public function exceptionAuthor()
     {
         return $this->belongsTo('App\\User', 'exception_author_id');
+    }
+
+    /**
+     * Get the project for the requisition.
+     */
+    public function project()
+    {
+        return $this->belongsTo('App\Project');
     }
 
     /**

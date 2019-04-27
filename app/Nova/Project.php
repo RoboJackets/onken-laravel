@@ -5,21 +5,20 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
 
-class Requisition extends Resource
+class Project extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'App\\Requisition';
+    public static $model = 'App\\Project';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -33,7 +32,7 @@ class Requisition extends Resource
      *
      * @var array
      */
-    public static $search = [ 'name' ];
+    public static $search = [];
 
     /**
      * Get the fields displayed by the resource.
@@ -46,41 +45,16 @@ class Requisition extends Resource
         return [
             Text::make('Name'),
 
-            BelongsTo::make('Vendor'),
+            Text::make('Requisition Prefix'),
 
-            BelongsTo::make('Project'),
+            BelongsTo::make('Fiscal Year', 'fiscalYear', 'App\Nova\FiscalYear'),
 
-            Select::make('State')
-                ->options([
-                    'draft' => 'Draft',
-                    'pending_ppproval' => 'Pending Approval',
-                    'approved' => 'Approved',
-                    'ordered' => 'Ordered',
-                    'partially_shipped' => 'Partially Shipped',
-                    'fully_shipped' => 'Fully Shipped',
-                    'partially_received' => 'Partially Received',
-                    'fully_received' => 'Fully Received',
-                ]),
+            Boolean::make('Available'),
 
-            Currency::make('Total Cost', 'amount')
-                ->exceptOnForms(),
-
-            BelongsTo::make('Technical Contact', 'technicalContact', 'App\Nova\User'),
-
-            BelongsTo::make('Finance Contact', 'financeContact', 'App\Nova\User'),
-
-            DateTime::make('Receive By'),
-
-            Text::make('Exception')
+            BelongsTo::make('Approver', 'approver', 'App\Nova\User')
                 ->nullable(),
 
-            BelongsTo::make('Exception Author', 'exceptionAuthor', 'App\Nova\User')
-                ->nullable(),
-
-            Textarea::make('Note')
-                ->nullable(),
-
-            HasMany::make('Lines', 'lines', 'App\Nova\RequisitionLine'),
+            HasMany::make('Requisitions'),
         ];
     }
 
