@@ -2,8 +2,10 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use App\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
@@ -54,7 +56,20 @@ class Project extends Resource
             BelongsTo::make('Approver', 'approver', 'App\Nova\User')
                 ->nullable(),
 
+            new Panel('Amounts', $this->amountFields()),
+
             HasMany::make('Requisitions'),
+        ];
+    }
+
+    protected function amountFields()
+    {
+        return [
+            Currency::make('Used')
+                ->onlyOnDetail(),
+
+            Currency::make('Pending')
+                ->onlyOnDetail(),
         ];
     }
 

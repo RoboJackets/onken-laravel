@@ -5,9 +5,9 @@ namespace App\Nova;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use App\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
 
@@ -32,7 +32,7 @@ class Account extends Resource
      *
      * @var array
      */
-    public static $search = [ 'name' ];
+    public static $search = ['name'];
 
     /**
      * Get the fields displayed by the resource.
@@ -69,6 +69,9 @@ class Account extends Resource
 
             Currency::make('Used')
                 ->exceptOnForms(),
+
+            Currency::make('Pending')
+                ->onlyOnDetail(),
 
             Currency::make('Collected')
                 ->exceptOnForms(),

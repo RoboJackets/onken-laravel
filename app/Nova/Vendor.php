@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
@@ -47,37 +48,36 @@ class Vendor extends Resource
             Text::make('Name')
                 ->sortable(),
 
-            Country::make('Nationality')
-                ->hideFromIndex(),
-
-            Textarea::make('Billing Address')
-                ->hideFromIndex(),
-
-            Text::make('GT Vendor ID')
-                ->rules('integer', 'nullable')
-                ->nullable()
-                ->hideFromIndex(),
-
             Text::make('Status')
                 ->nullable()
                 ->hideFromIndex(),
 
-            Textarea::make('Sales Contact')
+            Text::make('Website')
+                ->nullable(),
+
+            Country::make('Nationality')
+                ->hideFromIndex(),
+
+            Textarea::make('Requisition Guidance')
                 ->nullable()
                 ->hideFromIndex(),
 
-            Text::make('Customer')
+            new Panel('Detailed Information', $this->detailedFields()),
+
+            HasMany::make('Tags', 'tags', 'App\Nova\VendorTag'),
+
+            HasMany::make('Notes', 'notes', 'App\Nova\VendorNote'),
+        ];
+    }
+
+    protected function detailedFields()
+    {
+        return [
+            Textarea::make('Billing Address')
                 ->nullable()
                 ->hideFromIndex(),
 
             Boolean::make('Web Account Exists'),
-            
-            Text::make('Website')
-                ->nullable(),
-
-            Text::make('Part URL Schema')
-                ->nullable()
-                ->hideFromIndex(),
 
             Boolean::make('Shipping Quote Required')
                 ->hideFromIndex(),
@@ -85,13 +85,22 @@ class Vendor extends Resource
             Boolean::make('Tax Exempt')
                 ->hideFromIndex(),
 
-            Textarea::make('Requisition Guidance')
+            Text::make('GT Vendor ID')
+                ->rules('integer', 'nullable')
                 ->nullable()
                 ->hideFromIndex(),
 
-            HasMany::make('Tags', 'tags', 'App\Nova\VendorTag'),
+            Textarea::make('Sales Contact')
+                ->nullable()
+                ->hideFromIndex(),
 
-            HasMany::make('Notes', 'notes', 'App\Nova\VendorNote'),
+            /*Text::make('Customer')
+                ->nullable()
+                ->hideFromIndex(),*/ // TODO: fix this
+
+            Text::make('Part URL Schema')
+                ->nullable()
+                ->hideFromIndex(),
         ];
     }
 

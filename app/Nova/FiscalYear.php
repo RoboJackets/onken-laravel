@@ -2,12 +2,14 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use App\Nova\Fields\Currency;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
 
@@ -67,11 +69,40 @@ class FiscalYear extends Resource
 
             Boolean::make('Active'),
 
-            DateTime::make('Start Date'),
+            Date::make('Start Date')
+                ->format('MM/DD/YYYY')
+                ->hideFromIndex(),
 
-            DateTime::make('End Date'),
+            Date::make('End Date')
+                ->format('MM/DD/YYYY')
+                ->hideFromIndex(),
+
+            new Panel('Amounts', $this->amountFields()),
 
             HasMany::make('Accounts'),
+        ];
+    }
+
+    protected function amountFields()
+    {
+        return [
+            Currency::make('Allocated')
+                ->exceptOnForms(),
+
+            Currency::make('Used')
+                ->exceptOnForms(),
+
+            Currency::make('Pending')
+                ->onlyOnDetail(),
+
+            Currency::make('Collected')
+                ->exceptOnForms(),
+
+            Currency::make('Remaining')
+                ->exceptOnForms(),
+
+            Currency::make('Overdraw')
+                ->exceptOnForms(),
         ];
     }
 

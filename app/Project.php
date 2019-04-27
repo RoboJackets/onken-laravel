@@ -70,4 +70,24 @@ class Project extends Model
     {
         return $this->hasMany('App\Requisition');
     }
+
+    /**
+     * Get total used amount for the project.
+     */
+    public function getUsedAttribute()
+    {
+        return $this->requisitions()
+            ->whereNotIn('state', ['draft', 'pending_approval'])
+            ->get()->sum('amount');
+    }
+
+    /**
+     * Get total pending amount for the project.
+     */
+    public function getPendingAttribute()
+    {
+        return $this->requisitions()
+            ->whereIn('state', ['draft', 'pending_approval'])
+            ->get()->sum('amount');
+    }
 }

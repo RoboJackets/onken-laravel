@@ -83,6 +83,18 @@ class AccountLine extends Model
     }
 
     /**
+     * Get total pending amount for the line.
+     */
+    public function getPendingAttribute()
+    {
+        return $this->requisitionLines()
+            ->whereHas('requisition', function ($query) {
+                $query->whereIn('state', ['draft', 'pending_approval']);
+            })->get()
+            ->sum('amount');
+    }
+
+    /**
      * Get total collected amount for the line.
      */
     public function getCollectedAttribute()

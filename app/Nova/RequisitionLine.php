@@ -4,11 +4,11 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Number;
+use App\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\HasOne;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
 
@@ -71,31 +71,33 @@ class RequisitionLine extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(),
-
             BelongsTo::make('Requisition'),
 
-            Text::make('SKU'),
+            Text::make('SKU')
+                ->nullable(),
 
-            Text::make('SKU URL'),
+            Text::make('URL', 'sku_url')
+                ->nullable(),
 
             Text::make('Description'),
 
-            Number::make('Unit Cost', 'cost')
+            Currency::make('Unit Cost', 'cost')
                 ->min(0.0001)
                 ->max(9999.9999)
-                ->step(0.0001),
+                ->step(0.0001)
+                ->precision(4),
 
             Number::make('Quantity')
                 ->min(1)
                 ->step(1),
 
-            Number::make('Quantity Received'),
-
             Currency::make('Total', 'amount')
                 ->exceptOnForms(),
 
             BelongsTo::make('Account Line'),
+
+            Number::make('Quantity Received')
+                ->hideWhenCreating(),
 
             Text::make('Note'),
         ];

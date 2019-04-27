@@ -56,4 +56,52 @@ class FiscalYear extends Model
     {
         return $this->hasMany('App\Account');
     }
+
+    /**
+     * Get total allocated amount for the account.
+     */
+    public function getAllocatedAttribute()
+    {
+        return $this->accounts()->get()->sum('allocated');
+    }
+
+    /**
+     * Get total used amount for the account.
+     */
+    public function getUsedAttribute()
+    {
+        return $this->accounts()->get()->sum('used');
+    }
+
+    /**
+     * Get total pending amount for the account.
+     */
+    public function getPendingAttribute()
+    {
+        return $this->accounts()->get()->sum('pending');
+    }
+
+    /**
+     * Get total collected amount for the account.
+     */
+    public function getCollectedAttribute()
+    {
+        return $this->accounts()->get()->sum('collected');
+    }
+
+    /**
+     * Get total remaining amount for the account.
+     */
+    public function getRemainingAttribute()
+    {
+        return $this->accounts()->get()->sum('remaining');
+    }
+
+    /**
+     * Get total overdraw amount for the account.
+     */
+    public function getOverdrawAttribute()
+    {
+        return $this->accounts()->get()->sum('overdraw');
+    }
 }

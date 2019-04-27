@@ -79,6 +79,14 @@ class Account extends Model
     }
 
     /**
+     * Get total pending amount for the account.
+     */
+    public function getPendingAttribute()
+    {
+        return $this->accountLines()->get()->sum('pending');
+    }
+
+    /**
      * Get total collected amount for the account.
      */
     public function getCollectedAttribute()

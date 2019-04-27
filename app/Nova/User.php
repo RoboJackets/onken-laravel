@@ -43,6 +43,7 @@ class User extends Resource
             ID::make()->sortable(),
 
             Text::make('Name')
+                ->exceptOnForms()
                 ->sortable(),
 
             Text::make('GT Username', 'uid')
@@ -50,6 +51,8 @@ class User extends Resource
 
             Text::make('GT Email')
                 ->onlyOnDetail(),
+
+            // TODO link to Apiary profile
         ];
     }
 

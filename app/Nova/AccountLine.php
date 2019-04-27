@@ -5,10 +5,10 @@ namespace App\Nova;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use App\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
 
@@ -60,7 +60,7 @@ class AccountLine extends Resource
      *
      * @var array
      */
-    public static $search = [ 'name' ];
+    public static $search = ['name'];
 
     /**
      * Get the fields displayed by the resource.
@@ -71,12 +71,16 @@ class AccountLine extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('Name'),
-
             BelongsTo::make('Account'),
 
+            Text::make('Line Number')
+                ->rules('integer'),
+
+            Text::make('Name'),
+
             BelongsTo::make('Approver', 'approver', 'App\Nova\User')
-                ->nullable(),
+                ->nullable()
+                ->hideFromIndex(),
 
             new Panel('Amounts', $this->amountFields()),
 
@@ -92,13 +96,10 @@ class AccountLine extends Resource
             Currency::make('Used')
                 ->exceptOnForms(),
 
-            Currency::make('Collected')
+            Currency::make('Pending')
                 ->exceptOnForms(),
 
             Currency::make('Remaining')
-                ->exceptOnForms(),
-
-            Currency::make('Overdraw')
                 ->exceptOnForms(),
         ];
     }

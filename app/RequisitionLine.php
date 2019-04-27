@@ -59,7 +59,7 @@ class RequisitionLine extends Model
      */
     public function account_line()
     {
-        return $this->belongsTo('App\\Requisition');
+        return $this->belongsTo('App\\AccountLine');
     }
 
     /**

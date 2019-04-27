@@ -4,10 +4,10 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use App\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
@@ -46,38 +46,45 @@ class Requisition extends Resource
         return [
             Text::make('Name'),
 
+            BelongsTo::make('Project')
+                ->hideFromIndex(),
+
             BelongsTo::make('Vendor'),
 
-            BelongsTo::make('Project'),
+            Currency::make('Total Cost', 'amount')
+                ->exceptOnForms(),
 
             Select::make('State')
                 ->options([
                     'draft' => 'Draft',
-                    'pending_ppproval' => 'Pending Approval',
+                    'pending_approval' => 'Pending Approval',
                     'approved' => 'Approved',
                     'ordered' => 'Ordered',
                     'partially_shipped' => 'Partially Shipped',
                     'fully_shipped' => 'Fully Shipped',
                     'partially_received' => 'Partially Received',
                     'fully_received' => 'Fully Received',
-                ]),
+                ])->displayUsingLabels(),
 
-            Currency::make('Total Cost', 'amount')
-                ->exceptOnForms(),
+            BelongsTo::make('Technical Contact', 'technicalContact', 'App\Nova\User')
+                ->hideFromIndex(),
 
-            BelongsTo::make('Technical Contact', 'technicalContact', 'App\Nova\User'),
+            BelongsTo::make('Finance Contact', 'financeContact', 'App\Nova\User')
+                ->hideFromIndex(),
 
-            BelongsTo::make('Finance Contact', 'financeContact', 'App\Nova\User'),
-
-            DateTime::make('Receive By'),
+            DateTime::make('Receive By')
+                ->hideFromIndex(),
 
             Text::make('Exception')
+                ->hideFromIndex()
                 ->nullable(),
 
             BelongsTo::make('Exception Author', 'exceptionAuthor', 'App\Nova\User')
+                ->hideFromIndex()
                 ->nullable(),
 
             Textarea::make('Note')
+                ->hideFromIndex()
                 ->nullable(),
 
             HasMany::make('Lines', 'lines', 'App\Nova\RequisitionLine'),
