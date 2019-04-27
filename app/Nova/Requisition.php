@@ -52,14 +52,14 @@ class Requisition extends Resource
 
             Select::make('State')
                 ->options([
-                    'Draft' => 'Draft',
-                    'Pending Approval' => 'Pending Approval',
-                    'Approved' => 'Approved',
-                    'Ordered' => 'Ordered',
-                    'Partially Shipped' => 'Partially Shipped',
-                    'Fully Shipped' => 'Fully Shipped',
-                    'Partially Received' => 'Partially Received',
-                    'Fully Received' => 'Fully Received',
+                    'draft' => 'Draft',
+                    'pending_ppproval' => 'Pending Approval',
+                    'approved' => 'Approved',
+                    'ordered' => 'Ordered',
+                    'partially_shipped' => 'Partially Shipped',
+                    'fully_shipped' => 'Fully Shipped',
+                    'partially_received' => 'Partially Received',
+                    'fully_received' => 'Fully Received',
                 ]),
 
             Currency::make('Total Cost', 'amount')
