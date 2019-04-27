@@ -54,7 +54,7 @@ class Vendor extends Resource
                 ->hideFromIndex(),
 
             Text::make('GT Vendor ID')
-                ->rules('integer')
+                ->rules('integer', 'nullable')
                 ->nullable()
                 ->hideFromIndex(),
 
