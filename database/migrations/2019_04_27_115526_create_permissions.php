@@ -83,7 +83,7 @@ class CreatePermissions extends Migration
 
         $r_viewer_perms = [
             'read-accounts', 'read-account-lines', 'read-fiscal-years', 'read-requisitions', 'read-requisition-lines',
-            'read-users', 'read-vendors', 'read-vendor-notes', 'read-vendor-tags',
+            'read-users', 'read-vendors', 'read-vendor-notes', 'read-vendor-tags', 'read-projects',
         ];
         $r_member_perms = array_merge($r_viewer_perms, [
             'create-requisitions', 'update-requisitions', 'delete-requisitions', 'create-requisition-lines',
