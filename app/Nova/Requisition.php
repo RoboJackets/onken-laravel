@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Project;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Nova\Fields\Currency;
@@ -45,7 +46,14 @@ class Requisition extends Resource
     {
         return [
             Text::make('Name')
-                ->sortable(),
+                ->readonly(true)
+                ->fillUsing(function ($request, $model, $attribute) {
+                    if ($model->{$attribute} != null) return;
+
+                    // Get the project for this requisition
+                    $project = Project::find($request->project);
+                    $model->{$attribute} = $project->next_requisition_name;
+                })->sortable(),
 
             BelongsTo::make('Project')
                 ->sortable()

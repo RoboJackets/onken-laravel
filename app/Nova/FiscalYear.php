@@ -54,7 +54,7 @@ class FiscalYear extends Resource
      *
      * @var array
      */
-    public static $search = ['name'];
+    public static $search = ['name', 'number'];
 
     /**
      * Get the fields displayed by the resource.
@@ -66,17 +66,24 @@ class FiscalYear extends Resource
     {
         return [
             Text::make('Name')
+                ->exceptOnForms()
                 ->sortable(),
+
+            Text::make('Number')
+                ->rules('integer', 'required', 'lt:2080', 'gte:1980')
+                ->hideFromIndex(),
 
             Boolean::make('Active')
                 ->sortable(),
 
             Date::make('Start Date')
                 ->format('MM/DD/YYYY')
+                ->rules('required', 'date')
                 ->hideFromIndex(),
 
             Date::make('End Date')
                 ->format('MM/DD/YYYY')
+                ->rules('required', 'date')
                 ->hideFromIndex(),
 
             new Panel('Amounts', $this->amountFields()),

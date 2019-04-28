@@ -58,7 +58,7 @@ class FiscalYear extends Model
     }
 
     /**
-     * Get total allocated amount for the account.
+     * Get total allocated amount for the fiscal year.
      */
     public function getAllocatedAttribute()
     {
@@ -66,7 +66,7 @@ class FiscalYear extends Model
     }
 
     /**
-     * Get total used amount for the account.
+     * Get total used amount for the fiscal year.
      */
     public function getUsedAttribute()
     {
@@ -74,7 +74,7 @@ class FiscalYear extends Model
     }
 
     /**
-     * Get total pending amount for the account.
+     * Get total pending amount for the fiscal year.
      */
     public function getPendingAttribute()
     {
@@ -82,7 +82,7 @@ class FiscalYear extends Model
     }
 
     /**
-     * Get total collected amount for the account.
+     * Get total collected amount for the fiscal year.
      */
     public function getCollectedAttribute()
     {
@@ -90,7 +90,7 @@ class FiscalYear extends Model
     }
 
     /**
-     * Get total remaining amount for the account.
+     * Get total remaining amount for the fiscal year.
      */
     public function getRemainingAttribute()
     {
@@ -98,10 +98,19 @@ class FiscalYear extends Model
     }
 
     /**
-     * Get total overdraw amount for the account.
+     * Get total overdraw amount for the fiscal year.
      */
     public function getOverdrawAttribute()
     {
         return $this->accounts()->get()->sum('overdraw');
+    }
+
+    /**
+     * Get the public facing name for the fiscal year.
+     */
+    public function getNameAttribute()
+    {
+        $number = $this->number % 100;
+        return 'FY'.$number;
     }
 }

@@ -90,4 +90,28 @@ class Project extends Model
             ->whereIn('state', ['draft', 'pending_approval'])
             ->get()->sum('amount');
     }
+
+    /**
+     * Get the suggested name for the next requisition.
+     */
+    public function getNextRequisitionNameAttribute()
+    {
+        $year = $this->fiscalYear->number;
+        $base_name = $this->requisition_prefix.'-'.$year.'-PO-';
+        $number = 1;
+
+        $all_names = Requisition::where('project_id', $this->id)
+            ->withTrashed()
+            ->orderBy('id', 'asc')
+            ->pluck('name');
+
+        // Find a number not yet in the array
+        $name = $base_name.'001';
+        while ($all_names->contains($name)) {
+            $number++;
+            $name = sprintf('%s%03d', $name, $number);
+        }
+
+        return $name;
+    }
 }
