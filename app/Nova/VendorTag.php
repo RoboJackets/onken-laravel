@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
@@ -64,6 +65,8 @@ class VendorTag extends Resource
 
             Text::make('Name', 'tag')
                 ->sortable(),
+
+            new Panel('Metadata', $this->metaFields()),
         ];
     }
 

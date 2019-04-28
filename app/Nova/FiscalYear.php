@@ -89,6 +89,8 @@ class FiscalYear extends Resource
             new Panel('Amounts', $this->amountFields()),
 
             HasMany::make('Accounts'),
+
+            new Panel('Metadata', $this->metaFields()),
         ];
     }
 

@@ -58,6 +58,8 @@ class Account extends Resource
             new Panel('Amounts', $this->amountFields()),
 
             HasMany::make('Lines', 'accountLines', 'App\Nova\AccountLine'),
+
+            new Panel('Metadata', $this->metaFields()),
         ];
     }
 

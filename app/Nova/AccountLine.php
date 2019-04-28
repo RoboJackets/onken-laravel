@@ -87,6 +87,8 @@ class AccountLine extends Resource
             new Panel('Amounts', $this->amountFields()),
 
             HasMany::make('Requisition Lines', 'requisitionLines', 'App\Nova\RequisitionLine'),
+
+            new Panel('Metadata', $this->metaFields()),
         ];
     }
 

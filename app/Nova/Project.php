@@ -64,6 +64,8 @@ class Project extends Resource
             new Panel('Amounts', $this->amountFields()),
 
             HasMany::make('Requisitions'),
+
+            new Panel('Metadata', $this->metaFields()),
         ];
     }
 

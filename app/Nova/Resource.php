@@ -2,11 +2,25 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Resource as NovaResource;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 abstract class Resource extends NovaResource
 {
+    protected function metaFields()
+    {
+        return [
+            DateTime::make('Created At', 'created_at')
+                ->format('hh:mm:ssA M/D/YYYY') // 12:54:01PM 4/28/2019
+                ->onlyOnDetail(),
+
+            DateTime::make('Last Updated At', 'updated_at')
+                ->format('hh:mm:ssA M/D/YYYY') // 12:54:01PM 4/28/2019
+                ->onlyOnDetail(),
+        ];
+    }
+
     /**
      * Build an "index" query for the given resource.
      *

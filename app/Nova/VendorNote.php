@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
@@ -90,6 +91,8 @@ class VendorNote extends Resource
                 ->rules('required'),
 
             HasMany::make('Child Notes', 'children', 'App\Nova\VendorNote'),
+
+            new Panel('Metadata', $this->metaFields()),
         ];
     }
 

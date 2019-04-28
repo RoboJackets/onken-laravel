@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
@@ -58,6 +59,8 @@ class User extends Resource
                 }),
 
             // TODO link to Apiary profile
+
+            new Panel('Metadata', $this->metaFields()),
         ];
     }
 

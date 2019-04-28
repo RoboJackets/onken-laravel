@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Nova\Fields\Currency;
@@ -117,6 +118,8 @@ class RequisitionLine extends Resource
 
             Text::make('Note')
                 ->sortable(),
+
+            new Panel('Metadata', $this->metaFields()),
         ];
     }
 

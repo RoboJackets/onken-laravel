@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Project;
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Nova\Fields\Currency;
@@ -111,6 +112,8 @@ class Requisition extends Resource
                 ->nullable(),
 
             HasMany::make('Lines', 'lines', 'App\Nova\RequisitionLine'),
+
+            new Panel('Metadata', $this->metaFields()),
         ];
     }
 

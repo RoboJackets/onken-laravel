@@ -67,6 +67,8 @@ class Vendor extends Resource
             HasMany::make('Tags', 'tags', 'App\Nova\VendorTag'),
 
             HasMany::make('Notes', 'notes', 'App\Nova\VendorNote'),
+
+            new Panel('Metadata', $this->metaFields()),
         ];
     }
 
