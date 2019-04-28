@@ -104,6 +104,6 @@ class Requisition extends Model
     {
         return $this->lines()->get()->reduce(function($carry, $line) {
             return $carry + $line->cost * $line->quantity;
-        });
+        }, 0);
     }
 }
