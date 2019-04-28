@@ -6,6 +6,7 @@ use App\Project;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Nova\Fields\Currency;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\HasMany;
@@ -47,6 +48,7 @@ class Requisition extends Resource
         return [
             Text::make('Name')
                 ->readonly(true)
+                ->help('This field is auto-generated.')
                 ->fillUsing(function ($request, $model, $attribute) {
                     if ($model->{$attribute} != null) return;
 
@@ -68,6 +70,9 @@ class Requisition extends Resource
 
             Select::make('State')
                 ->sortable()
+                ->hideWhenCreating()
+                ->help('To mark this requisition as pending approval or approved, press save and use their corresponding option in the action dropdown.')
+                ->readonly(true)
                 ->options([
                     'draft' => 'Draft',
                     'pending_approval' => 'Pending Approval',
@@ -80,14 +85,18 @@ class Requisition extends Resource
                 ])->displayUsingLabels(),
 
             BelongsTo::make('Technical Contact', 'technicalContact', 'App\Nova\User')
+                ->help('Who should be contacted for issues with particular items?')
                 ->hideFromIndex(),
 
             BelongsTo::make('Finance Contact', 'financeContact', 'App\Nova\User')
+                ->help('Who should be contacted for issues with funding?')
                 ->hideFromIndex(),
 
-            DateTime::make('Receive By')
+            Date::make('Receive By')
+                ->help('For exceptional cases, the date a requisition is needed by. If there is no pressing deadline this should be blank.')
                 ->hideFromIndex(),
 
+                /* TODO: figure out a better way to handle this
             Text::make('Exception')
                 ->hideFromIndex()
                 ->nullable(),
@@ -95,8 +104,9 @@ class Requisition extends Resource
             BelongsTo::make('Exception Author', 'exceptionAuthor', 'App\Nova\User')
                 ->hideFromIndex()
                 ->nullable(),
+                 */
 
-            Textarea::make('Note')
+            Text::make('Note')
                 ->hideFromIndex()
                 ->nullable(),
 
