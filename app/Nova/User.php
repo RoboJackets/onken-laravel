@@ -40,18 +40,22 @@ class User extends Resource
     public function fields(Request $request)
     {
         return [
-            // ID::make()->sortable(),
-
             Text::make('Name')
                 ->exceptOnForms()
                 ->sortable(),
 
             Text::make('GT Username', 'uid')
                 ->exceptOnForms()
-                ->sortable(),
+                ->sortable()
+                ->canSee(function ($request) {
+                    return $request->user()->can('read-users_detailed');
+                }),
 
             Text::make('GT Email')
-                ->onlyOnDetail(),
+                ->onlyOnDetail()
+                ->canSee(function ($request) {
+                    return $request->user()->can('read-users_detailed');
+                }),
 
             // TODO link to Apiary profile
         ];
