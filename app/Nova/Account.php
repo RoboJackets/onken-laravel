@@ -32,7 +32,7 @@ class Account extends Resource
      *
      * @var array
      */
-    public static $search = ['name', 'sga_bill_number', 'workday_account_number'];
+    public static $search = ['name', 'sga_bill_number', 'workday_number'];
 
     /**
      * Get the fields displayed by the resource.

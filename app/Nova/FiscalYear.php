@@ -54,7 +54,7 @@ class FiscalYear extends Resource
      *
      * @var array
      */
-    public static $search = ['name', 'number'];
+    public static $search = ['number'];
 
     /**
      * Get the fields displayed by the resource.
