@@ -30,7 +30,8 @@ class VendorNotePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->can('read-vendor-notes');
+        return false;
+        // return $user->can('read-vendor-notes');
     }
 
     /**

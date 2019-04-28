@@ -30,7 +30,8 @@ class VendorTagPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->can('read-vendor-tags');
+        return false;
+        // return $user->can('read-vendor-tags');
     }
 
     /**
