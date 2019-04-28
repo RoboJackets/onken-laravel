@@ -53,7 +53,7 @@ class VendorNotePolicy
      */
     public function update(User $user, VendorNote $resource)
     {
-        return $user->can('update-vendor-notes') || ($user->can('update-vendor-notes-own') && $user->is($resource->user()));
+        return $user->can('update-vendor-notes') || ($user->can('update-vendor-notes-own') && $user->is($resource->user));
     }
 
     /**
@@ -65,7 +65,7 @@ class VendorNotePolicy
      */
     public function delete(User $user, VendorNote $resource)
     {
-        return $user->can('delete-vendor-notes') || ($user->can('delete-vendor-notes-own') && $user->is($resource->user()));
+        return $user->can('delete-vendor-notes') || ($user->can('delete-vendor-notes-own') && $user->is($resource->user));
     }
 
     /**

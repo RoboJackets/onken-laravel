@@ -59,6 +59,7 @@ class Vendor extends Resource
 
             Textarea::make('Requisition Guidance')
                 ->nullable()
+                ->help('Notes for people placing requisitions with this vendor')
                 ->hideFromIndex(),
 
             new Panel('Detailed Information', $this->detailedFields()),
@@ -74,25 +75,43 @@ class Vendor extends Resource
         return [
             Textarea::make('Billing Address')
                 ->nullable()
-                ->hideFromIndex(),
+                ->hideFromIndex()
+                ->canSee(function ($request) {
+                    return $request->user()->can('read-vendors_detailed');
+                }),
 
             Boolean::make('Web Account Exists')
-                ->sortable(),
+                ->sortable()
+                ->canSee(function ($request) {
+                    return $request->user()->can('read-vendors_detailed');
+                }),
 
             Boolean::make('Shipping Quote Required')
-                ->hideFromIndex(),
+                ->hideFromIndex()
+                ->canSee(function ($request) {
+                    return $request->user()->can('read-vendors_detailed');
+                }),
 
             Boolean::make('Tax Exempt')
-                ->hideFromIndex(),
+                ->hideFromIndex()
+                ->canSee(function ($request) {
+                    return $request->user()->can('read-vendors_detailed');
+                }),
 
             Text::make('GT Vendor ID')
                 ->rules('integer', 'nullable')
                 ->nullable()
-                ->hideFromIndex(),
+                ->hideFromIndex()
+                ->canSee(function ($request) {
+                    return $request->user()->can('read-vendors_detailed');
+                }),
 
             Textarea::make('Sales Contact')
                 ->nullable()
-                ->hideFromIndex(),
+                ->hideFromIndex()
+                ->canSee(function ($request) {
+                    return $request->user()->can('read-vendors_detailed');
+                }),
 
             /*Text::make('Customer')
                 ->nullable()
@@ -100,7 +119,11 @@ class Vendor extends Resource
 
             Text::make('Part URL Schema')
                 ->nullable()
-                ->hideFromIndex(),
+                ->hideFromIndex()
+                ->help('Put {sku} in the URL where the part SKU should go.')
+                ->canSee(function ($request) {
+                    return $request->user()->can('read-vendors_detailed');
+                }),
         ];
     }
 
