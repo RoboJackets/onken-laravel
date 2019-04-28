@@ -46,4 +46,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [];
+
+    /**
+     * Route notifications for the mail channel.
+     *
+     * @return string
+     */
+    public function routeNotificationForMail()
+    {
+        return $this->gt_email;
+    }
 }

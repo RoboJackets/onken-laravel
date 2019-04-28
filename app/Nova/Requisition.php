@@ -14,6 +14,7 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
+use app\Nova\Actions\RequestApproval;
 
 class Requisition extends Resource
 {
@@ -158,6 +159,8 @@ class Requisition extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            new RequestApproval,
+        ];
     }
 }
