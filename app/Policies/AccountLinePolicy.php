@@ -41,7 +41,7 @@ class AccountLinePolicy
      */
     public function create(User $user)
     {
-        return $user->can('read-account-lines');
+        return $user->can('create-account-lines');
     }
 
     /**
