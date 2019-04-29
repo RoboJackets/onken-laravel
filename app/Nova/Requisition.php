@@ -7,10 +7,11 @@ use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Nova\Actions\Approve;
-use App\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
+use App\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Select;
+use App\Nova\Actions\Disapprove;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Textarea;
@@ -171,6 +172,11 @@ class Requisition extends Resource
                 return $request->user()->can('update-requisitions') && $request->user()->is_approver;
             })->canRun(function ($request, $requisition) {
                 return $request->user()->can('update-requisitions') && $request->user()->is_approver;
+            }),
+            (new Disapprove)->canSee(function ($request) {
+                return $request->user()->can('update-requisitions');
+            })->canRun(function ($request, $requisition) {
+                return $request->user()->can('update-requisitions');
             }),
         ];
     }
