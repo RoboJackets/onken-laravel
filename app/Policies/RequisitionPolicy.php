@@ -54,7 +54,7 @@ class RequisitionPolicy
     public function update(User $user, Requisition $resource)
     {
         $req_state = $resource->state;
-        return $user->can('update-requisitions-locked') || (($req_state == 'draft' || $req_state == 'pending_approval') && $user->can('update-requisitions'));
+        return $user->can('update-requisitions-locked') || ($req_state == 'draft' && $user->can('update-requisitions'));
     }
 
     /**
@@ -67,7 +67,7 @@ class RequisitionPolicy
     public function delete(User $user, Requisition $resource)
     {
         $req_state = $resource->state;
-        return $user->can('delete-requisitions-locked') || (($req_state == 'draft' || $req_state == 'pending_approval') && $user->can('delete-requisitions'));
+        return $user->can('delete-requisitions-locked') || ($req_state == 'draft' && $user->can('delete-requisitions'));
     }
 
     /**
