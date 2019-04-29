@@ -6,6 +6,7 @@ use App\Project;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use App\Nova\Actions\Approve;
 use App\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
@@ -160,7 +161,17 @@ class Requisition extends Resource
     public function actions(Request $request)
     {
         return [
-            new RequestApproval,
+            (new RequestApproval)->canSee(function ($request) {
+                return $request->user()->can('update-requisitions');
+            })->canRun(function ($request, $requisition) {
+                // Allow even on requisitions not on draft state to allow nicer error messages
+                return $request->user()->can('update-requisitions');
+            }),
+            (new Approve)->canSee(function ($request) {
+                return true;
+            })->canRun(function ($request, $requisition) {
+                return $requisition->state == 'pending_approval';
+            }),
         ];
     }
 }

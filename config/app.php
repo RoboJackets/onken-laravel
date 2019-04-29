@@ -230,4 +230,6 @@ return [
 
     ],
 
+    'admin_slack_webhook_url' => env('ADMIN_SLACK_WEBHOOK_URL'),
+    'admin_email' => env('ADMIN_EMAIL'),
 ];

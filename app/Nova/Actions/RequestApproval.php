@@ -65,18 +65,18 @@ class RequestApproval extends Action
 
                 // TODO: don't hardcode path
                 $path = url(config('nova.path').'/resources/requisitions/'.$requisition->id);
+                // Notification::send($approvers, etc.) did not work for some reason
                 foreach ($approvers as $approver) {
                     $approver->notify(new ApprovalRequestedNotification($requisition->name, $path, request()->user()->name));
                 }
-                // Notification::send($approvers, new ApprovalRequestedNotification($requisition->name, $path, request()->user()->name));
             } else {
-                \Log::warning('Requisition '.$requisition->name.' does not require any approvals');
+                \Log::info('Requisition '.$requisition->name.' does not require any approvals');
                 return Action::danger($requisition->name.' does not have any approvers. Please ask the treasurer for approval.'); // FIXME
             }
         }
 
         $names = $total_approvers->unique()->pluck('name');
-        \Log::debug('Requested approvals from '.$names->implode(', '));
+        // \Log::debug('Requested approvals from '.$names->implode(', '));
         if ($names->count() == 1) {
             $approvers_string = $names[0];
         } else if ($names->count() == 2) {
