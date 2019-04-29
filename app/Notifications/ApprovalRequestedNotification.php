@@ -35,7 +35,11 @@ class ApprovalRequestedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        if ($notifiable->routeNotificationForSlack(null) != null) {
+            return ['mail', 'slack'];
+        } else {
+            return ['mail'];
+        }
     }
 
     /**
@@ -52,6 +56,29 @@ class ApprovalRequestedNotification extends Notification
                 'requisition_url' => $this->requisition_url,
                 'requester_name' => $this->requester_name,
             ]);
+    }
+
+    /**
+     * Get the Slack representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return SlackMessage
+     */
+    public function toSlack($notifiable)
+    {
+        $name = $requisition_name;
+        $url = $requisition_url;
+        $requester = $requester_name;
+
+        return (new SlackMessage)
+            ->from('Onken')
+            ->content('A requisition needs approval as it has no listed approvers.')
+            ->attachment(function ($attachment) use ($name, $url, $requester) {
+                $attachment->title($name, $url)
+                    ->fields([
+                        'Requested By' => $requester,
+                    ]);
+            });
     }
 
     /**

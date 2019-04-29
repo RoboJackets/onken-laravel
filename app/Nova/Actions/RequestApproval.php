@@ -7,6 +7,7 @@ use App\Requisition;
 use Illuminate\Bus\Queueable;
 use Laravel\Nova\Actions\Action;
 use Illuminate\Support\Collection;
+use App\Notifiable\AdminNotifiable;
 use Laravel\Nova\Fields\ActionFields;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -39,53 +40,34 @@ class RequestApproval extends Action
 
         $total_approvers = collect();
         foreach ($models as $requisition) {
-            $approvers = collect([]);
-            $project_approver = $requisition->project->approver;
-            if ($project_approver != null) {
-                $approvers[] = $project_approver;
-            }
+            $approvers = $requisition->approvers;
+            $approver_names = $approvers ? $approvers->pluck('name') : [];
+            $total_approvers = $total_approvers->concat($approver_names);
 
-            foreach ($requisition->lines as $req_line) {
-                $account_line = $req_line->account_line;
-                $account_line_approver = $account_line->approver;
-                if ($account_line_approver != null) {
-                    $approvers[] = $accont_line_approver;
-                }
-            }
+            // TODO: don't hardcode path
+            $path = url(config('nova.path').'/resources/requisitions/'.$requisition->id);
+            $notification = new ApprovalRequestedNotification($requisition->name, $path, request()->user()->name);
 
-            $approvers = $approvers->unique();
-            $total_approvers = $total_approvers->concat($approvers);
-            // Notification::send(); // FIXME
+            $requisition->state = 'pending_approval';
+            $requisition->save();
 
             if ($approvers->count() > 0) {
-                $requisition->state = 'pending_approval';
-                $requisition->save();
+                \Log::debug('Requisition '.$requisition->name.' needs approval from '.$approver_names->toSentence());
 
-                \Log::debug('Requisition '.$requisition->name.' needs approval from '.$approvers->pluck('name')->implode(', '));
-
-                // TODO: don't hardcode path
-                $path = url(config('nova.path').'/resources/requisitions/'.$requisition->id);
                 // Notification::send($approvers, etc.) did not work for some reason
                 foreach ($approvers as $approver) {
-                    $approver->notify(new ApprovalRequestedNotification($requisition->name, $path, request()->user()->name));
+                    $approver->notify($notification);
                 }
             } else {
-                \Log::info('Requisition '.$requisition->name.' does not require any approvals');
-                return Action::danger($requisition->name.' does not have any approvers. Please ask the treasurer for approval.'); // FIXME
+                \Log::debug('Requisition '.$requisition->name.' needs approval from the treasurer');
+                $total_approvers[] = 'the treasurer';
+                (new AdminNotifiable)->notify($notification);
             }
         }
 
-        $names = $total_approvers->unique()->pluck('name');
+        $total_approvers = $total_approvers->unique();
         // \Log::debug('Requested approvals from '.$names->implode(', '));
-        if ($names->count() == 1) {
-            $approvers_string = $names[0];
-        } else if ($names->count() == 2) {
-            $approvers_string = $names[0].' and '.$names[1];
-        } else {
-            $approvers_string = $names->slice(0, $names->count() - 1)->implode(', ').', and '.$names->last();
-        }
-
-        return Action::message('Requested approval from '.$approvers_string.'.');
+        return Action::message('Requested approval from '.$total_approvers->toSentence().'.');
     }
 
     /**

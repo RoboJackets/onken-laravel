@@ -106,4 +106,23 @@ class Requisition extends Model
             return $carry + $line->cost * $line->quantity;
         }, 0);
     }
+
+    /**
+     * Get all users whose approval is required for this requisition.
+     */
+    public function getApproversAttribute()
+    {
+        $project_approver = $this->project->approver;
+        $line_approvers = $this->lines->pluck('approver');
+        \Log::debug('fdsa'.$project_approver.' '.$line_approvers);
+        if ($line_approvers != null) {
+            return $line_approvers->concat([$project_approver])
+                ->unique()
+                ->filter(function ($item) {
+                    return $item != null;
+                });
+        } else {
+            return $project_approver ? collect([$project_approver]) : collect();
+        }
+    }
 }

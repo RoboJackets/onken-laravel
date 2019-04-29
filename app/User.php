@@ -56,4 +56,14 @@ class User extends Authenticatable
     {
         return $this->gt_email;
     }
+
+    /**
+     * Route notifications for the slack channel.
+     *
+     * @return string
+     */
+    public function routeNotificationForSlack()
+    {
+        return null;
+    }
 }
