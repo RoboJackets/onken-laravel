@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Project;
+use App\AccountLine;
 use Laravel\Nova\Actions\Actionable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -65,5 +67,15 @@ class User extends Authenticatable
     public function routeNotificationForSlack()
     {
         return null;
+    }
+
+    /**
+     * Get whether this user is an approver for any projects or account lines
+     *
+     * @return boolean
+     */
+    public function getIsApproverAttribute()
+    {
+        return Project::where('approver_id', $this->id)->count() > 0 || AccountLine::where('approver_id', $this->id)->count() > 0;
     }
 }

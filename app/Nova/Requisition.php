@@ -168,9 +168,9 @@ class Requisition extends Resource
                 return $request->user()->can('update-requisitions');
             }),
             (new Approve)->canSee(function ($request) {
-                return $request->user()->can('update-requisitions');
+                return $request->user()->can('update-requisitions') && $request->user()->is_approver;
             })->canRun(function ($request, $requisition) {
-                return $requisition->state == 'pending_approval';
+                return $request->user()->can('update-requisitions') && $request->user()->is_approver;
             }),
         ];
     }
