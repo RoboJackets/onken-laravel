@@ -6,6 +6,7 @@ use App\User;
 use App\Vendor;
 use App\Account;
 use App\Project;
+use App\Approval;
 use App\VendorTag;
 use App\FiscalYear;
 use App\VendorNote;
@@ -37,6 +38,7 @@ class AuthServiceProvider extends ServiceProvider
         Vendor::class => VendorPolicy::class,
         Account::class => AccountPolicy::class,
         Project::class => ProjectPolicy::class,
+        Approval::class => ApprovalPolicy::class,
         VendorTag::class => VendorTagPolicy::class,
         FiscalYear::class => FiscalYearPolicy::class,
         VendorNote::class => VendorNotePolicy::class,

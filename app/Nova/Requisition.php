@@ -116,6 +116,8 @@ class Requisition extends Resource
 
             HasMany::make('Lines', 'lines', 'App\Nova\RequisitionLine'),
 
+            HasMany::make('Approvals'),
+
             new Panel('Metadata', $this->metaFields()),
         ];
     }
