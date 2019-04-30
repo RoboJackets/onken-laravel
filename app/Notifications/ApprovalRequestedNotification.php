@@ -51,7 +51,7 @@ class ApprovalRequestedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)->subject('Approval Requested')
-            ->markdown('requisition.approval.requested', [
+            ->markdown('notification.requisition.approvalrequested', [
                 'requisition_name' => $this->requisition_name,
                 'requisition_url' => $this->requisition_url,
                 'requester_name' => $this->requester_name,
