@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
@@ -78,6 +79,9 @@ class AccountLine extends Resource
                 ->rules('integer'),
 
             Text::make('Name')
+                ->sortable(),
+
+            Boolean::make('Capital Outlay')
                 ->sortable(),
 
             BelongsTo::make('Approver', 'approver', 'App\Nova\User')
