@@ -114,9 +114,18 @@ class Requisition extends Resource
                 ->hideFromIndex()
                 ->nullable(),
 
+            Text::make('Missing Approvals From', function () {
+                    return $this->approvers_pending->pluck('name')->toSentence();
+                })->canSee(function ($request) {
+                    return $this->resource->state == 'pending_approval' && $request->user()->can('read-users');
+                }),
+
             HasMany::make('Lines', 'lines', 'App\Nova\RequisitionLine'),
 
-            HasMany::make('Approvals'),
+            HasMany::make('Approvals')
+                ->canSee(function ($request) {
+                    return $this->resource->state != 'draft';
+                }),
 
             new Panel('Metadata', $this->metaFields()),
         ];
@@ -179,7 +188,7 @@ class Requisition extends Resource
                 return $request->user()->can('update-requisitions') || $request->user()->can('delete-approvals');
             })->canRun(function ($request, $requisition) {
                 // Can be run by the technical contact, finance contact, or an approver of the request
-                return ($request->user()->can('update-requisitions') && ($requisition->approvers->contains($request->user()) || $request->user()->is($requisition->technicalContact) || $request->user()->is($requisition->financeContact)) || $request->user()->can('delete-approvals');
+                return $request->user()->can('update-requisitions') && ($requisition->approvers->contains($request->user()) || $request->user()->is($requisition->technicalContact) || $request->user()->is($requisition->financeContact)) || $request->user()->can('delete-approvals');
             }),
         ];
     }
