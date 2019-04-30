@@ -176,10 +176,10 @@ class Requisition extends Resource
                 return ($request->user()->can('update-requisitions') && $requisition->approvers->contains($request->user())) || $request->user()->can('create-approvals');
             }),
             (new Disapprove)->canSee(function ($request) {
-                return ($request->user()->can('update-requisitions') && $request->user()->is_approver) || $request->user()->can('delete-approvals');
+                return $request->user()->can('update-requisitions') || $request->user()->can('delete-approvals');
             })->canRun(function ($request, $requisition) {
-                // TODO: check this
-                return ($request->user()->can('update-requisitions') && $requisition->approvers->contains($request->user())) || $request->user()->can('delete-approvals');
+                // Can be run by the technical contact, finance contact, or an approver of the request
+                return ($request->user()->can('update-requisitions') && ($requisition->approvers->contains($request->user()) || $request->user()->is($requisition->technicalContact) || $request->user()->is($requisition->financeContact)) || $request->user()->can('delete-approvals');
             }),
         ];
     }
