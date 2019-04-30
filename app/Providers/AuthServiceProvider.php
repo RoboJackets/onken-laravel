@@ -17,6 +17,7 @@ use App\Policies\UserPolicy;
 use App\Policies\VendorPolicy;
 use App\Policies\AccountPolicy;
 use App\Policies\ProjectPolicy;
+use App\Policies\ApprovalPolicy;
 use App\Policies\VendorTagPolicy;
 use App\Policies\FiscalYearPolicy;
 use App\Policies\VendorNotePolicy;

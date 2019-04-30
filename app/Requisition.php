@@ -99,6 +99,14 @@ class Requisition extends Model
     }
 
     /**
+     * Get the approvals for the requisition.
+     */
+    public function approvals()
+    {
+        return $this->hasMany('App\Approval');
+    }
+
+    /**
      * Get the total cost of this requisition.
      */
     public function getAmountAttribute()

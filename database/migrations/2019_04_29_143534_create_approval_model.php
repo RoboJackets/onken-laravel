@@ -1,6 +1,8 @@
 <?php
 
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Schema;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -16,7 +18,7 @@ class CreateApprovalModel extends Migration
         Schema::create('approvals', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('requisition_id');
-            $table->usignedInteger('user_id');
+            $table->unsignedInteger('user_id');
             $table->timestamps();
             $table->softDeletes();
 

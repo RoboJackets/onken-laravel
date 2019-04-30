@@ -45,11 +45,11 @@ class Approve extends Action
         }
 
         $approval = new Approval;
-        $approval->user()->associate($request->user());
+        $approval->user()->associate(request()->user());
         $approval->requisition()->associate($requisition);
         $approval->save();
 
-        if ($request->user()->can('create-approvals') || $requisition->approvers_pending->count() == 0) {
+        if (request()->user()->can('create-approvals') || $requisition->approvers_pending->count() == 0) {
             $requisition->state = 'approved';
             $requisition->save();
 
