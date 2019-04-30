@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Vendor;
-use App\Notifiables\AdminNotifiable;
+use App\Notifiable\AdminNotifiable;
 use App\Notifications\VendorCreatedNotification;
 
 class VendorObserver
