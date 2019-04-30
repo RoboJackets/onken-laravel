@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Vendor;
+use App\Observers\VendorObserver;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 
@@ -36,6 +38,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Vendor::observe(VendorObserver::class);
     }
 }
