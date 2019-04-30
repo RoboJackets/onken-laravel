@@ -46,9 +46,17 @@ class Vendor extends Resource
             Text::make('Name')
                 ->sortable(),
 
-            Text::make('Status')
-                ->nullable()
-                ->hideFromIndex(),
+            Select::make('Status')
+                ->options([
+                    'unapproved' => 'Unapproved',
+                    'approved' => 'Approved',
+                    'preferred' => 'Preferred',
+                    'discouraged' => 'Discouraged',
+                    'unavailable' => 'Unavailable',
+                ])->displayUsingLabels()
+                ->readonly(function ($request) {
+                    return !$request->user()->can('update-vendors');
+                })->hideFromIndex(),
 
             Text::make('Website')
                 ->sortable()
