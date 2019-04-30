@@ -2,6 +2,7 @@
 
 namespace App\Nova\Actions;
 
+use App\Approval;
 use Notification;
 use App\Requisition;
 use Illuminate\Bus\Queueable;
@@ -35,6 +36,18 @@ class Disapprove extends Action
         }
 
         $requisition = $models[0];
+
+        if (!($requisition->state == 'pending_approval' || ($requisition->state == 'approved' && $request->user()->can('delete-approvals')))) {
+            $this->markAsFailed($requisition);
+            // TODO: check this
+            if ($request->user()->can('delete-approvals')) {
+                return Action::danger('You can only disapprove requisitions that are pending approval or approved.');
+            } else {
+                return Action::danger('You can only disapprove requisitions that are pending approval.');
+            }
+        }
+
+        Approval::where('approval_id', $requisition->id)->delete();
 
         $requisition->state = 'draft';
         $requisition->save();

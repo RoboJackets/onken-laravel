@@ -171,14 +171,15 @@ class Requisition extends Resource
                 return $request->user()->can('update-requisitions');
             }),
             (new Approve)->canSee(function ($request) {
-                return $request->user()->can('update-requisitions') && $request->user()->is_approver;
+                return ($request->user()->can('update-requisitions') && $request->user()->is_approver) || $request->user()->can('create-approvals');
             })->canRun(function ($request, $requisition) {
-                return $request->user()->can('update-requisitions') && $request->user()->is_approver;
+                return ($request->user()->can('update-requisitions') && $requisition->approvers->contains($request->user())) || $request->user()->can('create-approvals');
             }),
             (new Disapprove)->canSee(function ($request) {
-                return $request->user()->can('update-requisitions');
+                return ($request->user()->can('update-requisitions') && $request->user()->is_approver) || $request->user()->can('delete-approvals');
             })->canRun(function ($request, $requisition) {
-                return $request->user()->can('update-requisitions');
+                // TODO: check this
+                return ($request->user()->can('update-requisitions') && $requisition->approvers->contains($request->user())) || $request->user()->can('delete-approvals');
             }),
         ];
     }

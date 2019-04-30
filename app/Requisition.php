@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Approval;
 use Laravel\Nova\Actions\Actionable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -114,7 +115,6 @@ class Requisition extends Model
     {
         $project_approver = $this->project->approver;
         $line_approvers = $this->lines->pluck('approver');
-        \Log::debug('fdsa'.$project_approver.' '.$line_approvers);
         if ($line_approvers != null) {
             return $line_approvers->concat([$project_approver])
                 ->unique()
@@ -124,5 +124,16 @@ class Requisition extends Model
         } else {
             return $project_approver ? collect([$project_approver]) : collect();
         }
+    }
+
+    /**
+     * Get all users whose approval is required and not present for this requisition.
+     */
+    public function getApproversPendingAttribute()
+    {
+        if ($this->state != 'pending_approval') {
+            return collect();
+        }
+        return $this->approvers->diff(Approval::where('requisition_id', $this->id)->with('user')->get()->pluck('user'));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Nova\Actions;
 
+use App\Approval;
 use Notification;
 use App\Requisition;
 use Illuminate\Bus\Queueable;
@@ -38,14 +39,23 @@ class Approve extends Action
         if ($requisition->amount == 0) {
             $this->markAsFailed($requisition);
             return Action::danger('Requisitions must have a non-zero cost to be approved.');
+        } else if ($requisition->state != 'pending_approval') {
+            $this->markAsFailed($requisition);
+            return Action::danger('You can only approve requisitions that are pending approval.');
         }
 
-        $requisition->state = 'approved';
-        $requisition->save();
+        $approval = new Approval;
+        $approval->user()->associate($request->user());
+        $approval->requisition()->associate($requisition);
+        $approval->save();
 
-        \Log::debug('Requisition '.$requisition->name.' approved.');
+        if ($request->user()->can('create-approvals') || $requisition->approvers_pending->count() == 0) {
+            $requisition->state = 'approved';
+            $requisition->save();
 
-        (new AdminNotifiable)->notify(new RequisitionApprovedNotification($requisition));
+            \Log::debug('Requisition '.$requisition->name.' approved.');
+            (new AdminNotifiable)->notify(new RequisitionApprovedNotification($requisition));
+        }
 
         return Action::message('Requisition approved.');
     }
