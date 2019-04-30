@@ -7,20 +7,20 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class RequisitionApprovedNotification extends Notification
+class VendorCreated extends Notification
 {
     use Queueable;
 
-    protected $requisition;
+    protected $vendor;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($requisition)
+    public function __construct($vendor)
     {
-        $this->requisition = $requisition;
+        $this->vendor = $vendor;
     }
 
     /**
@@ -46,12 +46,10 @@ class RequisitionApprovedNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->subject('Requisition Approved')
-            ->markdown('requisition.approval.approved', [
-                'name' => $this->requisition->name,
-                'url' => url(config('nova.path').'/resources/requisitions/'.$this->requisition->id),
-                'vendor' => $this->requisition->vendor->name,
-                'cost' => money_format('$%.2n', $this->requisition->amount),
+        return (new MailMessage)->subject('Vendor created')
+            ->markdown('notification.vendor.created', [
+                'name' => $this->vendor->name,
+                'url' => url(config('nova.path').'/resources/vendors/'.$this->vendor->id),
             ]);
     }
 
@@ -63,21 +61,14 @@ class RequisitionApprovedNotification extends Notification
      */
     public function toSlack($notifiable)
     {
-        $name = $this->requisition->name;
-        $url = url(config('nova.path').'/resources/requisitions/'.$requisition->id);
-        $vendor = $this->requisition->vendor->name;
-        $cost = $this->requisition->amount;
+        $name = $this->vendor->name;
+        $url = url(config('nova.path').'/resources/vendors/'.$this->vendor->id);
 
         return (new SlackMessage)
             ->from('Onken')
-            ->content('A requisition was marked approved.')
-            ->attachment(function ($attachment) use ($name, $url, $vendor, $cost) {
-                $attachment->title($name, $url)
-                    ->fields([
-                        'Vendor' => $vendor,
-                        'Total Cost' => money_format('$%.2n', $cost),
-                        // TODO: mention overdraw here
-                    ]);
+            ->content('A vendor was created.')
+            ->attachment(function ($attachment) use ($name, $url) {
+                $attachment->title($name, $url);
             });
     }
 
