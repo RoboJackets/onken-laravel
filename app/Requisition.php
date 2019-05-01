@@ -152,4 +152,27 @@ class Requisition extends Model
         }
         return $this->approvers->diff(Approval::where('requisition_id', $this->id)->with('user')->get()->pluck('user'));
     }
+
+    /**
+     * Get a map of amounts to account lines of overdraw that will be caused by this requisition. Only applicable to draft requisitions.
+     */
+    public function getOverdrawAttribute()
+    {
+        if ($this->state == 'draft' || $this->state == 'pending_approval') {
+            return $this->lines()->with('account_line')->get()
+                ->groupBy('account_line_id')
+                ->mapWithKeys(function($req_lines) {
+                    // $lines is an array of req lines with the same account line
+                    $account_line = $req_lines[0]->account_line;
+                    $cost = $req_lines->sum('amount');
+                    $overdraw = $account_line->remaining - $cost;
+
+                    return [$overdraw => $account_line];
+                })->filter(function ($line, $overdraw) {
+                    return $overdraw > 0;
+                });
+        } else {
+            return collect();
+        }
+    }
 }

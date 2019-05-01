@@ -120,6 +120,14 @@ class Requisition extends Resource
                     return $this->resource->state == 'pending_approval' && $request->user()->can('read-users');
                 }),
 
+            Text::make('Will Cause Overdraw On', function () {
+                    return $this->overdraw->map(function ($line, $amount) {
+                        return money_format('$%.2n', $amount).' on '.$line->name;
+                    })->values()->toSentence();
+                })->canSee(function ($request) {
+                    return ($this->resource->state == 'pending_approval' || $this->resource->state == 'draft') && $request->user()->can('read-account-lines') && $this->resource->overdraw->count() > 0;
+                }),
+
             BelongsTo::make('Vendor Order')
                 ->canSee(function ($request) {
                     return $this->resource->state != 'draft' && $this->resource->state != 'pending_approval' && $request->user()->can('read-vendor-orders');
