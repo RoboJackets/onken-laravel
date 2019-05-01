@@ -120,6 +120,12 @@ class Requisition extends Resource
                     return $this->resource->state == 'pending_approval' && $request->user()->can('read-users');
                 }),
 
+            BelongsTo::make('Vendor Order')
+                ->canSee(function ($request) {
+                    return $this->resource->state != 'draft' && $this->resource->state != 'pending_approval' && $request->user()->can('read-vendor-orders');
+                })
+                ->onlyOnDetail(), // Will be edited only from the vendor order
+
             HasMany::make('Lines', 'lines', 'App\Nova\RequisitionLine'),
 
             HasMany::make('Approvals')

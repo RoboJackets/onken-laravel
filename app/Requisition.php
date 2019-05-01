@@ -107,6 +107,14 @@ class Requisition extends Model
     }
 
     /**
+     * Get the vendor order for the requisition.
+     */
+    public function vendorOrder()
+    {
+        return $this->belongsTo('App\VendorOrder');
+    }
+
+    /**
      * Get the total cost of this requisition.
      */
     public function getAmountAttribute()

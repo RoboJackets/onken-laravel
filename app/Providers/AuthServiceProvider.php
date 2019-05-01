@@ -12,6 +12,7 @@ use App\FiscalYear;
 use App\VendorNote;
 use App\AccountLine;
 use App\Requisition;
+use App\VendorOrder;
 use App\RequisitionLine;
 use App\Policies\UserPolicy;
 use App\Policies\VendorPolicy;
@@ -23,6 +24,7 @@ use App\Policies\FiscalYearPolicy;
 use App\Policies\VendorNotePolicy;
 use App\Policies\AccountLinePolicy;
 use App\Policies\RequisitionPolicy;
+use App\Policies\VendorOrderPolicy;
 use Illuminate\Support\Facades\Gate;
 use App\Policies\RequisitionLinePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -45,6 +47,7 @@ class AuthServiceProvider extends ServiceProvider
         VendorNote::class => VendorNotePolicy::class,
         AccountLine::class => AccountLinePolicy::class,
         Requisition::class => RequisitionPolicy::class,
+        VendorOrder::class => VendorOrderPolicy::class,
         RequisitionLine::class => RequisitionLinePolicy::class,
     ];
 
