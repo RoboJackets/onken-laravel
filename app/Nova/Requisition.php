@@ -121,8 +121,8 @@ class Requisition extends Resource
                 }),
 
             Text::make('Overdraw Caused', function () {
-                    return $this->overdraw->map(function ($line, $amount) {
-                        return money_format('$%.2n', $amount).' on '.$line->name;
+                    return $this->overdraw->map(function ($tuple) {
+                        return money_format('$%.2n', $tuple[0]).' on '.$tuple[1]->name;
                     })->values()->whenEmpty(function ($list) {
                         return $list->push('—');
                     })->toSentence();
