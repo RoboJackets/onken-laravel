@@ -128,7 +128,7 @@ class Requisition extends Resource
                     return ($this->resource->state == 'pending_approval' || $this->resource->state == 'draft') && $request->user()->can('read-account-lines') && $this->resource->overdraw->count() > 0;
                 }),
 
-            BelongsTo::make('Vendor Order')
+            BelongsTo::make('Vendor Order', 'vendorOrder', 'App\Nova\VendorOrder')
                 ->canSee(function ($request) {
                     return $this->resource->state != 'draft' && $this->resource->state != 'pending_approval' && $request->user()->can('read-vendor-orders');
                 })
