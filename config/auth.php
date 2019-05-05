@@ -100,4 +100,6 @@ return [
         ],
     ],
 
+    'apiary_token' => env('APIARY_TOKEN'),
+    'apiary_endpoint' => env('APIARY_ENDPOINT', 'https://my.robojackets.org/api/v1/users'),
 ];

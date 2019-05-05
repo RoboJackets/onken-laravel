@@ -11,6 +11,7 @@ namespace App\Traits;
 use Log;
 use App\Team;
 use App\User;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -65,13 +66,30 @@ trait CreateOrUpdateCASUser
         $user->last_name = $this->cas->getAttribute('sn');
         $user->save();
 
-        //Initial Role Assignment
-        if ($user->wasRecentlyCreated || $user->roles->count() == 0) {
-            $role = Role::where('name', 'member')->first();
-            if ($role) {
-                $user->assignRole($role);
-            } else {
-                Log::error(get_class()."Role 'member' not found for assignment to $user->uid.");
+        \Log::info('Loading information on '.$user->uid.' from Apiary');
+        $client = new Client([
+                'headers' => [
+                    'User-Agent' => 'Onken on '.$_SERVER['SERVER_NAME'],
+                    'Authorization' => 'Bearer '.config('auth.apiary_token'),
+                    'Accept' => 'application/json',
+                ],
+                'http_errors' => false,
+            ]);
+        $response = $client->get(config('auth.apiary_endpoint').'/'.strtolower($user->uid).'?include=teams');
+        $apiary_user = json_decode($response->getBody()->getContents(), true)['user'];
+
+        if ($apiary_user != null) {
+            if ($apiary_user['is_access_active'] && !$user->hasRole('viewer')) {
+                $user->assignRole('viewer');
+                \Log::info('Granted viewer role to active user '.$user->uid);
+            } else if (!$apiary_user['is_access_active'] && $user->hasRole('viewer')) {
+                $user->removeRole('viewer');
+                \Log::info('Removed viewer role from inactive user '.$user->uid);
+            }
+
+            if ($apiary_user['preferred_first_name'] != null && $apiary_user['preferred_first_name'] != $user->first_name) {
+                $user->first_name = $apiary_user['preferred_first_name'];
+                $user->save();
             }
         }
 
