@@ -17,7 +17,11 @@ Route::get('nova/logout', function () {
 
 Route::group(['middleware' => 'auth.cas.force'], function () {
     Route::get('/', function () {
-        return view('welcome');
+        if (request()->user()->can('access-nova')) {
+            return redirect('/nova');
+        } else {
+            abort(403);
+        }
     });
 });
 
