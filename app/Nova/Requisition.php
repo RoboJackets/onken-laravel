@@ -118,7 +118,8 @@ class Requisition extends Resource
                     return $this->approvers_pending->pluck('name')->toSentence();
                 })->canSee(function ($request) {
                     return $this->resource->state == 'pending_approval' && $request->user()->can('read-users');
-                }),
+                })
+                ->onlyOnDetail(),
 
             Text::make('Overdraw Caused', function () {
                     return $this->overdraw->map(function ($tuple) {
