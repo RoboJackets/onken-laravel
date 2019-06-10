@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
+        \Illuminate\Notifications\SlackChannelServiceProvider::class,
 
         /*
          * Application Service Providers...
