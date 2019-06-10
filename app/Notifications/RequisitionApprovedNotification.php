@@ -65,7 +65,7 @@ class RequisitionApprovedNotification extends Notification
     public function toSlack($notifiable)
     {
         $name = $this->requisition->name;
-        $url = url(config('nova.path').'/resources/requisitions/'.$requisition->id);
+        $url = url(config('nova.path').'/resources/requisitions/'.$this->requisition->id);
         $vendor = $this->requisition->vendor->name;
         $cost = $this->requisition->amount;
 
