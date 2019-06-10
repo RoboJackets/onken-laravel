@@ -66,9 +66,9 @@ class ApprovalRequestedNotification extends Notification
      */
     public function toSlack($notifiable)
     {
-        $name = $requisition_name;
-        $url = $requisition_url;
-        $requester = $requester_name;
+        $name = $this->requisition_name;
+        $url = $this->requisition_url;
+        $requester = $this->requester_name;
 
         return (new SlackMessage)
             ->from('Onken')
