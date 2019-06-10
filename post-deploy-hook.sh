@@ -12,4 +12,4 @@ php artisan cache:clear --no-interaction
 npm install --no-progress
 npm run production --no-progress
 php artisan up
-php artisan horizon:terminate
+# php artisan horizon:terminate
