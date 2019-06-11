@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ae22eb8d4716ceaa1ddb3cab7c1cabe",
+    "content-hash": "75284aa107a97a6b60b3c17c2f98b4e2",
     "packages": [
         {
             "name": "apereo/phpcas",
@@ -3835,6 +3835,49 @@
                 "environment"
             ],
             "time": "2019-03-06T09:39:45+00:00"
+        },
+        {
+            "name": "vyuldashev/nova-permission",
+            "version": "v1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vyuldashev/nova-permission.git",
+                "reference": "b68eee7d321955753adb2e830f89bfc66212de22"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vyuldashev/nova-permission/zipball/b68eee7d321955753adb2e830f89bfc66212de22",
+                "reference": "b68eee7d321955753adb2e830f89bfc66212de22",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1",
+                "spatie/laravel-permission": "^2.16"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vyuldashev\\NovaPermission\\ToolServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vyuldashev\\NovaPermission\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova tool for Spatie's Permission library.",
+            "keywords": [
+                "laravel",
+                "nova",
+                "spatie-permission"
+            ],
+            "time": "2019-05-14T22:11:13+00:00"
         }
     ],
     "packages-dev": [

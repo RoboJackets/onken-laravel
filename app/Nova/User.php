@@ -6,6 +6,7 @@ use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\MorphToMany;
 
 class User extends Resource
 {
@@ -61,6 +62,16 @@ class User extends Resource
             // TODO link to Apiary profile
 
             new Panel('Metadata', $this->metaFields()),
+
+            MorphToMany::make('Roles', 'roles', \Vyuldashev\NovaPermission\Role::class)
+                ->canSee(static function (Request $request): bool {
+                    return $request->user()->hasRole('admin');
+                }),
+
+            MorphToMany::make('Permissions', 'permissions', \Vyuldashev\NovaPermission\Permission::class)
+                ->canSee(static function (Request $request): bool {
+                    return $request->user()->hasRole('admin');
+                }),
         ];
     }
 

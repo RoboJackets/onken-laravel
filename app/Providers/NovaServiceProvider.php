@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Laravel\Nova\Nova;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
@@ -62,7 +63,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
-        return [];
+        return [
+            \Vyuldashev\NovaPermission\NovaPermissionTool::make()->canSee(static function (Request $request): bool {
+                return $request->user()->hasRole('admin');
+            }),
+        ];
     }
 
     /**

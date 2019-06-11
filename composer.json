@@ -19,7 +19,8 @@
         "laravel/slack-notification-channel": "^2.0",
         "laravel/tinker": "^1.0",
         "spatie/laravel-permission": "^2.37",
-        "subfission/cas": "dev-master"
+        "subfission/cas": "dev-master",
+        "vyuldashev/nova-permission": "^1.7"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
