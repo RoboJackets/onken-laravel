@@ -6,6 +6,7 @@ use Laravel\Nova\Nova;
 use Illuminate\Http\Request;
 use App\Nova\Cards\MakeAWish;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\Events\ServingNova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
