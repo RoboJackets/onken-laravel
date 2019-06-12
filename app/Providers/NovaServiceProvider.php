@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use Laravel\Nova\Nova;
 use Illuminate\Http\Request;
+use App\Nova\Cards\MakeAWish;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\Events\ServingNova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
@@ -17,6 +19,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+        Nova::serving(static function (ServingNova $event): void {
+            Nova::script('onken-custom', __DIR__.'/../../public/js/nova.js');
+            Nova::style('onken-custom', __DIR__.'/../../public/css/nova.css');
+        });
     }
 
     /**
@@ -53,7 +59,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function cards()
     {
-        return [];
+        return [
+            new MakeAWish(),
+        ];
     }
 
     /**
