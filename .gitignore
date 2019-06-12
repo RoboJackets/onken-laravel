@@ -17,7 +17,11 @@ npm-debug.log
 /public/phpCAS.log
 /public/nova-assets/
 /resources/lang/vendor/nova/
-/resources/views/vendor/nova/
+/resources/views/vendor/nova/*
+!/resources/views/vendor/nova/partials
+/resources/views/vendor/nova/partials/*
+!/resources/views/vendor/nova/partials/user.blade.php
+!/resources/views/vendor/nova/partials/footer.blade.php
 /public/vendor/nova/
 auth.json
 .phpstorm.meta.php
